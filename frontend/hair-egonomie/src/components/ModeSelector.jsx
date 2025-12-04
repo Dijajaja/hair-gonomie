@@ -48,17 +48,19 @@ const ModeSelector = ({ onSelect }) => {
           {modes.map((mode, index) => (
             <motion.button
               key={mode}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ 
-                delay: index * 0.15, 
-                duration: 0.4,
-                ease: "easeOut"
+                delay: index * 0.12,
+                duration: 0.5,
+                ease: [0.4, 0, 0.2, 1]
               }}
               whileHover={{ 
                 scale: 1.05,
-                boxShadow: "0 10px 30px rgba(0,0,0,0.2)"
+                y: -2,
+                boxShadow: "0 10px 30px rgba(102, 126, 234, 0.3)",
+                borderColor: "#764ba2"
               }}
               whileTap={{ scale: 0.95 }}
               onClick={() => onSelect(mode)}

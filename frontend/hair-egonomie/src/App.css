@@ -1,8 +1,20 @@
+/* Styles globaux pour l'application */
 #root {
   width: 100%;
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  position: relative;
+}
+
+/* Amélioration des transitions globales */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
 }
 
 .logo {

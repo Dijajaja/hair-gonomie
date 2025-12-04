@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
-import { pulse, fadeInOut } from '../animations/variants';
+import { pulse, fadeInOut, slideUp } from '../animations/variants';
 
 const SplashScreen = ({ next }) => {
   useEffect(() => {
-    // Déclencher la transition après 2 secondes
+    // Déclencher la transition après 2.5 secondes pour laisser le temps à l'animation
     const timer = setTimeout(() => {
       next();
-    }, 2000);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, [next]);
@@ -26,29 +26,60 @@ const SplashScreen = ({ next }) => {
         height: '100vh',
         width: '100%',
         background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        color: 'white'
+        color: 'white',
+        position: 'relative',
+        overflow: 'hidden'
       }}
     >
+      {/* Effet de fond animé */}
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.2, 0.1]
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        style={{
+          position: 'absolute',
+          width: '300px',
+          height: '300px',
+          borderRadius: '50%',
+          background: 'rgba(255, 255, 255, 0.1)',
+          filter: 'blur(60px)'
+        }}
+      />
+
       <motion.div
         variants={pulse}
         animate="animate"
+        initial="initial"
         style={{
-          fontSize: 'clamp(2rem, 5vw, 4rem)',
+          fontSize: 'clamp(2.5rem, 6vw, 5rem)',
           fontWeight: 'bold',
-          marginBottom: '1rem',
-          textAlign: 'center'
+          marginBottom: '1.5rem',
+          textAlign: 'center',
+          position: 'relative',
+          zIndex: 1,
+          letterSpacing: '-0.02em'
         }}
       >
         Hair-Gonomie
       </motion.div>
       
       <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 0.5 }}
+        variants={slideUp}
+        initial="initial"
+        animate="animate"
+        transition={{ delay: 0.8, duration: 0.6 }}
         style={{
-          fontSize: '1.2rem',
-          opacity: 0.9
+          fontSize: 'clamp(1rem, 2vw, 1.3rem)',
+          opacity: 0.95,
+          position: 'relative',
+          zIndex: 1,
+          fontWeight: 300
         }}
       >
         Parcours guidé progressif

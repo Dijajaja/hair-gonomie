@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { slideUp } from "../animations/variants";
+import { slideUp, slideFromRight } from "../animations/variants";
 
 // Questions de démonstration selon le mode sélectionné
 const DEMO_QUESTIONS = {
@@ -134,10 +134,10 @@ const QuestionCard = ({ mode }) => {
       <AnimatePresence mode="wait">
         <motion.div
           key={currentQuestionIndex}
-          initial={{ opacity: 0, x: 50 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -50 }}
-          transition={{ duration: 0.4 }}
+          initial={{ opacity: 0, x: 60, scale: 0.95 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={{ opacity: 0, x: -60, scale: 0.95 }}
+          transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
           style={{
             width: '100%',
             maxWidth: '600px',
@@ -176,8 +176,12 @@ const QuestionCard = ({ mode }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 8px 25px rgba(102, 126, 234, 0.4)"
+                }}
                 whileTap={{ scale: 0.95 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
                 onClick={handleNext}
                 style={{
                   padding: '1rem 2rem',
@@ -197,8 +201,12 @@ const QuestionCard = ({ mode }) => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 8px 25px rgba(102, 126, 234, 0.4)"
+                }}
                 whileTap={{ scale: 0.95 }}
+                transition={{ delay: 0.3, duration: 0.3 }}
                 onClick={() => {
                   // Revenir au début ou à la sélection de mode
                   setCurrentQuestionIndex(0);
