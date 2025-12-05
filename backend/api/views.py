@@ -7,7 +7,7 @@ def get_questions(request):
         "questions": [
             "Quel est ton niveau ?",
             "Combien de temps par jour ?",
-            "Préférence : vidéo, texte ou exercice ?"
+            "Préférence : article, texte ou exercice ?"
         ]
     })
 

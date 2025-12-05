@@ -35,20 +35,18 @@ const JourneyFlow = ({ journey, mode, onComplete }) => {
         type: 'question',
         id: questionId,
         moduleIndex: index,
-        isLast: index === journey.modules.length - 1, // Marquer la dernière question
+        isLast: false, // Pas la dernière, il y aura un quiz final
       });
     });
 
-    // S'assurer qu'il y a toujours une question finale si le parcours se termine par du contenu
-    const lastStep = steps[steps.length - 1];
-    if (lastStep && lastStep.type === 'content') {
-      steps.push({
-        type: 'question',
-        id: 'final_question',
-        moduleIndex: journey.modules.length,
-        isLast: true,
-      });
-    }
+    // TOUJOURS ajouter un quiz final pour évaluer la compréhension globale
+    steps.push({
+      type: 'question',
+      id: 'final_quiz',
+      moduleIndex: journey.modules.length,
+      isLast: true, // C'est le dernier quiz
+      isFinalQuiz: true, // Marqueur pour le quiz final
+    });
 
     return steps;
   };
@@ -109,39 +107,85 @@ const JourneyFlow = ({ journey, mode, onComplete }) => {
         const exerciseIds = ['exercise1', 'exercise2', 'exercise3'];
         contentId = exerciseIds[currentStep.moduleIndex % exerciseIds.length] || 'exercise1';
       } else if (moduleType === 'exemple') {
-        contentId = 'article2'; // Utiliser un article comme exemple
+        // Utiliser article2 comme exemple, avec un contenu par défaut si non trouvé
+        
+        contentId = 'article2';
       } else if (moduleType === 'resume') {
         contentId = 'article3';
       }
       
       const contentData = getContent(contentId);
       
+      // S'assurer qu'on a toujours un contenu valide
+      if (!contentData || !contentData.content) {
+        // Contenu par défaut si non trouvé
+        return {
+          id: currentStep.id,
+          contentType: currentStep.contentType || moduleType || 'article',
+          title: currentStep.title || currentStep.module?.label || 'Contenu',
+          content: `
+            <h2>${currentStep.title || currentStep.module?.label || 'Contenu'}</h2>
+            <p>Ce contenu vous guide dans votre parcours d'apprentissage.</p>
+            <p>Continuez pour découvrir la suite de votre parcours personnalisé.</p>
+          `,
+        };
+      }
+      
       return {
         id: currentStep.id,
-        contentType: currentStep.contentType,
-        title: currentStep.title || currentStep.module?.label,
-        content: contentData?.content || `<p>Contenu pour ${currentStep.module?.label}</p>`,
+        contentType: currentStep.contentType || moduleType || 'article',
+        title: contentData.title || currentStep.title || currentStep.module?.label || 'Contenu',
+        content: contentData.content,
       };
     }
     return null;
   };
 
   if (steps.length === 0) {
-    return null;
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontSize: '1.25rem',
+      }}>
+        Aucun parcours disponible
+      </div>
+    );
   }
+
+  // S'assurer qu'on a toujours un step valide
+  if (!currentStep) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontSize: '1.25rem',
+      }}>
+        Chargement...
+      </div>
+    );
+  }
+
+  const currentContent = getCurrentContent();
 
   return (
     <AnimatePresence mode="wait">
-      {currentStep?.type === 'content' && (
+      {currentStep.type === 'content' && currentContent && (
         <ContentCard
           key={currentStep.id}
-          content={getCurrentContent()}
+          content={currentContent}
           onNext={handleContentNext}
           onComplete={currentStepIndex === steps.length - 1 ? handleContentNext : undefined}
         />
       )}
 
-      {currentStep?.type === 'question' && (
+      {currentStep.type === 'question' && (
         <QuestionCard
           key={currentStep.id}
           mode={mode}

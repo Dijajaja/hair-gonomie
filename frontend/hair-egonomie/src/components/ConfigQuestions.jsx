@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import TradingBackground from './TradingBackground';
 import { 
@@ -84,10 +84,64 @@ const ConfigQuestions = ({ onComplete }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [flippedCards, setFlippedCards] = useState({});
+  const autoGuideTimerRef = useRef(null);
 
   const currentQuestion = CONFIG_QUESTIONS[currentQuestionIndex];
   const isLastQuestion = currentQuestionIndex === CONFIG_QUESTIONS.length - 1;
   const progress = ((currentQuestionIndex + 1) / CONFIG_QUESTIONS.length) * 100;
+  const hasAnsweredCurrentQuestion = answers[currentQuestion.id] !== undefined;
+
+  // Guidage automatique si l'utilisateur ne répond pas
+  useEffect(() => {
+    // Réinitialiser le timer si l'utilisateur a déjà répondu
+    if (hasAnsweredCurrentQuestion) {
+      if (autoGuideTimerRef.current) {
+        clearTimeout(autoGuideTimerRef.current);
+        autoGuideTimerRef.current = null;
+      }
+      return;
+    }
+
+    // Calculer le délai selon le rythme choisi
+    const rythme = answers.rythme;
+    let delay = 9000; // 9 secondes par défaut
+    if (rythme === 'doucement') {
+      delay = 12000; // 12 secondes pour doucement
+    } else if (rythme === 'rapidement') {
+      delay = 6000; // 6 secondes pour rapidement
+    }
+
+    // Démarrer le guidage automatique
+    autoGuideTimerRef.current = setTimeout(() => {
+      // Sélectionner automatiquement la première option
+      if (currentQuestion.options && currentQuestion.options.length > 0) {
+        const firstOptionId = currentQuestion.options[0].id;
+        const newAnswers = {
+          ...answers,
+          [currentQuestion.id]: firstOptionId,
+        };
+        setAnswers(newAnswers);
+
+        if (isLastQuestion) {
+          setTimeout(() => {
+            onComplete(newAnswers);
+          }, 500);
+        } else {
+          setTimeout(() => {
+            setCurrentQuestionIndex(currentQuestionIndex + 1);
+            setFlippedCards({});
+          }, 600);
+        }
+      }
+    }, delay);
+
+    return () => {
+      if (autoGuideTimerRef.current) {
+        clearTimeout(autoGuideTimerRef.current);
+        autoGuideTimerRef.current = null;
+      }
+    };
+  }, [currentQuestionIndex, hasAnsweredCurrentQuestion, currentQuestion, answers, isLastQuestion, onComplete]);
 
   const handleOptionSelect = (optionId) => {
     const newAnswers = {
@@ -226,10 +280,39 @@ const ConfigQuestions = ({ onComplete }) => {
                   fontSize: '0.875rem',
                   color: 'rgba(255, 255, 255, 0.75)',
                   fontStyle: 'italic',
+                  marginBottom: '1rem',
                 }}
               >
                 {currentQuestion.reason}
               </p>
+              {/* Indicateur de guidage automatique */}
+              {!hasAnsweredCurrentQuestion && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    fontSize: '0.75rem',
+                    color: 'rgba(236, 72, 153, 0.8)',
+                    fontStyle: 'italic',
+                    marginTop: '0.5rem',
+                  }}
+                >
+                  <motion.span
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    ⏱️
+                  </motion.span>
+                  <span>
+                    Sélection automatique dans quelques secondes...
+                  </span>
+                </motion.div>
+              )}
             </motion.div>
 
             {/* Options avec effet flip */}
@@ -241,7 +324,9 @@ const ConfigQuestions = ({ onComplete }) => {
                 marginBottom: '2rem',
               }}
             >
-              {currentQuestion.options.map((option, index) => (
+              {currentQuestion.options.map((option, index) => {
+                const IconComponent = getIconForOption(currentQuestion.id, option.id);
+                return (
                 <motion.div
                   key={option.id}
                   initial={{ opacity: 0, y: 40 }}
@@ -298,11 +383,13 @@ const ConfigQuestions = ({ onComplete }) => {
                     >
                       <div
                         style={{
-                          fontSize: '3rem',
                           marginBottom: '1rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                         }}
                       >
-                        {option.icon}
+                        {IconComponent && <IconComponent size={48} color="rgba(236, 72, 153, 0.9)" />}
                       </div>
                       <h3
                         style={{
@@ -383,7 +470,8 @@ const ConfigQuestions = ({ onComplete }) => {
                     </motion.div>
                   </motion.div>
                 </motion.div>
-              ))}
+              );
+              })}
             </div>
           </motion.div>
         </AnimatePresence>

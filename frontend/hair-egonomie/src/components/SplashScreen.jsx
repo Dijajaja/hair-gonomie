@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 
 const SplashScreen = ({ next }) => {
   useEffect(() => {
-    // Augmenter le temps d'affichage pour permettre la lecture des descriptions
+    // Ralentir encore plus la page d'accueil pour permettre une meilleure lecture
     const timer = setTimeout(() => {
       next();
-    }, 4000);
+    }, 7000); // Augmenté à 7 secondes
 
     return () => clearTimeout(timer);
   }, [next]);
