@@ -10,4 +10,15 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: '../../backend/static',
+    emptyOutDir: true,
+    assetsDir: 'assets',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined,
+      },
+    },
+  },
+  base: '/static/',
 })
