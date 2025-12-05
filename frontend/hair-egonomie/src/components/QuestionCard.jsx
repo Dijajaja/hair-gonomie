@@ -138,6 +138,16 @@ const QuestionCard = ({ mode, onComplete }) => {
   }, [mode]);
 
   const handleNext = useCallback(() => {
+    // Arrêter tous les timers avant de passer à la question suivante
+    if (autoAdvanceTimerRef.current) {
+      clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
+    if (countdownTimerRef.current) {
+      clearInterval(countdownTimerRef.current);
+      countdownTimerRef.current = null;
+    }
+    
     setCurrentAnswer('');
     setCurrentQuestionIndex((prevIndex) => {
       if (prevIndex < questions.length - 1) {
@@ -145,19 +155,40 @@ const QuestionCard = ({ mode, onComplete }) => {
       } else {
         // Dernière question terminée
         if (onComplete) {
+          // Compter les bonnes réponses
+          const correctCount = Object.values(answerFeedback).filter(fb => fb?.isCorrect).length;
           onComplete({
             total: questions.length,
-            completed: questions.length,
+            completed: correctCount,
           });
         }
         return prevIndex;
       }
     });
-  }, [questions.length, onComplete]);
+  }, [questions.length, onComplete, answerFeedback]);
 
-  // Timer automatique pour avancer les questions
+  // Timer automatique pour avancer les questions - SEULEMENT si l'utilisateur n'a pas répondu
   useEffect(() => {
     if (questions.length === 0 || isLoading) return;
+    
+    // Si l'utilisateur a déjà répondu à cette question, ne pas démarrer le timer
+    const hasAnswered = userAnswers[currentQuestionIndex] !== undefined;
+    if (hasAnswered) {
+      // Arrêter tous les timers si l'utilisateur a répondu
+      if (autoAdvanceTimerRef.current) {
+        clearTimeout(autoAdvanceTimerRef.current);
+        autoAdvanceTimerRef.current = null;
+      }
+      if (countdownTimerRef.current) {
+        clearInterval(countdownTimerRef.current);
+        countdownTimerRef.current = null;
+      }
+      // Mettre à jour le temps restant de manière asynchrone
+      setTimeout(() => {
+        setTimeRemaining(0);
+      }, 0);
+      return;
+    }
 
     // Nettoyer les timers précédents
     if (autoAdvanceTimerRef.current) {
@@ -186,7 +217,8 @@ const QuestionCard = ({ mode, onComplete }) => {
 
       // Attendre le délai avant de compléter (pour que la dernière question soit visible)
       autoAdvanceTimerRef.current = setTimeout(() => {
-        if (onComplete) {
+        // Vérifier à nouveau si l'utilisateur a répondu avant de compléter
+        if (!userAnswers[currentQuestionIndex] && onComplete) {
           onComplete({
             total: questions.length,
             completed: questions.length,
@@ -223,7 +255,10 @@ const QuestionCard = ({ mode, onComplete }) => {
 
     // Créer un nouveau timer pour la question suivante
     autoAdvanceTimerRef.current = setTimeout(() => {
-      handleNext();
+      // Vérifier à nouveau si l'utilisateur a répondu avant d'avancer
+      if (!userAnswers[currentQuestionIndex]) {
+        handleNext();
+      }
     }, AUTO_ADVANCE_DELAY);
 
     // Nettoyer les timers au démontage ou changement de question
@@ -237,7 +272,7 @@ const QuestionCard = ({ mode, onComplete }) => {
         countdownTimerRef.current = null;
       }
     };
-  }, [currentQuestionIndex, questions.length, isLoading, handleNext, onComplete]);
+  }, [currentQuestionIndex, questions.length, isLoading, handleNext, onComplete, userAnswers]);
 
   if (isLoading) {
     return (
@@ -316,23 +351,67 @@ const QuestionCard = ({ mode, onComplete }) => {
     );
   }
 
-  // Fonction pour vérifier si la réponse est correcte (comparaison flexible)
+  // Fonction améliorée pour vérifier si la réponse est correcte
   const checkAnswer = (userAnswer, correctAnswer) => {
     if (!userAnswer || !correctAnswer) return false;
-    const userLower = userAnswer.toLowerCase().trim();
-    const correctLower = correctAnswer.toLowerCase().trim();
     
-    // Vérifier si la réponse contient des mots-clés importants de la bonne réponse
-    const correctKeywords = correctLower.split(' ').filter(word => word.length > 4);
-    const matchingKeywords = correctKeywords.filter(keyword => userLower.includes(keyword));
+    // Nettoyer les réponses (supprimer la ponctuation, normaliser les espaces)
+    const normalize = (text) => {
+      return text
+        .toLowerCase()
+        .replace(/[.,;:!?'"()]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    };
     
-    // Si au moins 30% des mots-clés correspondent, considérer comme correct
-    return matchingKeywords.length >= correctKeywords.length * 0.3 || 
-           userLower.includes(correctLower.substring(0, Math.min(20, correctLower.length)));
+    const userNormalized = normalize(userAnswer);
+    const correctNormalized = normalize(correctAnswer);
+    
+    // 1. Vérification exacte (après normalisation)
+    if (userNormalized === correctNormalized) {
+      return true;
+    }
+    
+    // 2. Vérification par similarité de mots-clés importants
+    // Extraire les mots significatifs (plus de 3 caractères, exclure les mots communs)
+    const commonWords = ['le', 'la', 'les', 'un', 'une', 'des', 'de', 'du', 'et', 'ou', 'à', 'dans', 'pour', 'avec', 'sans', 'sur', 'par', 'que', 'qui', 'quoi', 'quand', 'où', 'comment', 'pourquoi'];
+    const extractKeywords = (text) => {
+      return text
+        .split(' ')
+        .filter(word => word.length > 3 && !commonWords.includes(word));
+    };
+    
+    const userKeywords = extractKeywords(userNormalized);
+    const correctKeywords = extractKeywords(correctNormalized);
+    
+    if (userKeywords.length === 0 || correctKeywords.length === 0) {
+      return false;
+    }
+    
+    // Compter les mots-clés correspondants
+    const matchingKeywords = userKeywords.filter(userWord => 
+      correctKeywords.some(correctWord => 
+        correctWord.includes(userWord) || userWord.includes(correctWord)
+      )
+    );
+    
+    // Si au moins 50% des mots-clés de la bonne réponse sont présents, considérer comme correct
+    const matchRatio = matchingKeywords.length / correctKeywords.length;
+    return matchRatio >= 0.5;
   };
 
   const handleSubmitAnswer = () => {
     if (!currentAnswer.trim()) return;
+    
+    // Arrêter le timer automatique car l'utilisateur a répondu
+    if (autoAdvanceTimerRef.current) {
+      clearTimeout(autoAdvanceTimerRef.current);
+      autoAdvanceTimerRef.current = null;
+    }
+    if (countdownTimerRef.current) {
+      clearInterval(countdownTimerRef.current);
+      countdownTimerRef.current = null;
+    }
     
     const currentQuestion = questions[currentQuestionIndex];
     const correctAnswer = typeof currentQuestion === 'object' && currentQuestion?.correctAnswer
@@ -692,8 +771,8 @@ const QuestionCard = ({ mode, onComplete }) => {
               </motion.div>
             )}
 
-            {/* Barre de progression automatique */}
-            {currentQuestionIndex < questions.length - 1 && (
+            {/* Barre de progression automatique - seulement si l'utilisateur n'a pas répondu */}
+            {currentQuestionIndex < questions.length - 1 && !hasAnswered && (
               <motion.div
                 initial={{ opacity: 0, scaleX: 0 }}
                 animate={{ opacity: 1, scaleX: 1 }}
