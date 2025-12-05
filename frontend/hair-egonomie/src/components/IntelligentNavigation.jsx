@@ -140,7 +140,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
             style={{
               width: '100%',
               textAlign: 'center',
@@ -150,14 +150,14 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
+              transition={{ delay: 0.2, duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
               style={{
                 fontSize: 'clamp(2rem, 5vw, 3rem)',
                 fontWeight: 700,
-                color: 'white',
+                color: '#ec4899',
                 marginBottom: '1rem',
                 letterSpacing: '-0.02em',
-                textShadow: '0 5px 20px rgba(236, 72, 153, 0.3)',
+                textShadow: '0 5px 20px rgba(236, 72, 153, 0.4)',
               }}
             >
               Que voulez-vous faire aujourd'hui ?
@@ -165,11 +165,12 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
+              transition={{ delay: 0.3, duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
               style={{
                 fontSize: '1.125rem',
-                color: 'rgba(255, 255, 255, 0.8)',
+                color: '#ec4899',
                 fontWeight: 400,
+                opacity: 0.9,
               }}
             >
               Navigation adaptée à vos besoins
@@ -185,17 +186,18 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
               visible: {
                 opacity: 1,
                 transition: {
-                  staggerChildren: 0.2,
-                  delayChildren: 0.4,
+                  staggerChildren: 0.15,
+                  delayChildren: 0.3,
+                  ease: [0.25, 0.1, 0.25, 1],
                 },
               },
             }}
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '1.25rem',
+              gap: '2.5rem', // Espacement augmenté pour disperser les cartes
               width: '100%',
-              maxWidth: '500px',
+              maxWidth: '450px', // Légèrement réduit
             }}
           >
         <AnimatePresence>
@@ -209,22 +211,22 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                   y: 0,
                   scale: 1,
                   transition: {
-                    duration: 0.5,
-                    ease: [0.4, 0, 0.2, 1],
+                    duration: 0.7,
+                    ease: [0.25, 0.1, 0.25, 1],
                   },
                 },
               }}
               whileHover={{
                 scale: 1.02,
                 y: -4,
-                transition: { duration: 0.2 },
+                transition: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
               }}
               whileTap={{ scale: 0.98 }}
               onHoverStart={() => trackHoverStart(item.id)}
               onHoverEnd={() => trackHoverEnd(item.id)}
               onClick={() => handleItemClick(item)}
               style={{
-                padding: '1.75rem 2rem',
+                padding: '1.25rem 1.5rem', // Réduit de 1.75rem 2rem
                 background: item.isRecommended
                   ? 'rgba(236, 72, 153, 0.15)'
                   : 'rgba(20, 20, 20, 0.6)',
@@ -233,16 +235,16 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                 border: item.isRecommended
                   ? '2px solid rgba(236, 72, 153, 0.5)'
                   : '1px solid rgba(236, 72, 153, 0.2)',
-                borderRadius: '1.5rem',
+                borderRadius: '1.25rem', // Légèrement réduit
                 cursor: 'pointer',
                 textAlign: 'left',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '1.5rem',
+                gap: '1.25rem', // Réduit de 1.5rem
                 transition: 'all 0.3s ease',
                 boxShadow: item.isRecommended
-                  ? '0 12px 40px -8px rgba(236, 72, 153, 0.4)'
-                  : '0 8px 32px rgba(236, 72, 153, 0.1)',
+                  ? '0 10px 35px -8px rgba(236, 72, 153, 0.4)'
+                  : '0 6px 28px rgba(236, 72, 153, 0.1)',
                 position: 'relative',
                 overflow: 'hidden',
                 zIndex: 20, // Assure que les boutons sont cliquables
@@ -257,21 +259,21 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                   transition={{ delay: 0.3 + index * 0.1 }}
                   style={{
                     position: 'absolute',
-                    top: '0.75rem',
-                    right: '0.75rem',
+                    top: '0.625rem', // Réduit
+                    right: '0.625rem', // Réduit
                     background: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
                     color: 'white',
-                    fontSize: '0.75rem',
+                    fontSize: '0.7rem', // Réduit
                     fontWeight: 600,
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '1rem',
+                    padding: '0.2rem 0.625rem', // Réduit
+                    borderRadius: '0.75rem',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
                     boxShadow: '0 4px 12px rgba(236, 72, 153, 0.4)',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                    <IconStar size={12} color="currentColor" />
+                    <IconStar size={10} color="currentColor" /> {/* Réduit */}
                     <span>Recommandé</span>
                   </div>
                 </motion.div>
@@ -284,9 +286,9 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                   left: 0,
                   top: 0,
                   bottom: 0,
-                  width: '4px',
+                  width: '3px', // Réduit de 4px
                   background: `linear-gradient(180deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  boxShadow: `0 0 10px ${item.color}80`,
+                  boxShadow: `0 0 8px ${item.color}80`,
                 }}
                 initial={{ scaleY: 0 }}
                 whileHover={{ scaleY: 1 }}
@@ -298,29 +300,29 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '3rem',
-                  height: '3rem',
+                  width: '2.5rem', // Réduit de 3rem
+                  height: '2.5rem', // Réduit de 3rem
                 }}
                 whileHover={{ scale: 1.1, rotate: 5 }}
                 transition={{ duration: 0.2 }}
               >
-                {item.IconComponent && <item.IconComponent size={40} color={item.color} />}
+                {item.IconComponent && <item.IconComponent size={32} color={item.color} />} {/* Réduit de 40 */}
               </motion.div>
 
               <div style={{ flex: 1 }}>
                 <h3
                   style={{
-                    fontSize: '1.25rem',
+                    fontSize: '1.1rem', // Réduit de 1.25rem
                     fontWeight: 600,
                     color: '#ec4899',
-                    marginBottom: '0.25rem',
+                    marginBottom: '0.2rem', // Réduit
                   }}
                 >
                   {item.label}
                 </h3>
                 <p
                   style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.8rem', // Réduit de 0.875rem
                     color: 'rgba(236, 72, 153, 0.7)',
                     fontWeight: 400,
                   }}
@@ -337,7 +339,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                 whileHover={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.2 }}
               >
-                <IconArrowRight size={24} color="#ec4899" />
+                <IconArrowRight size={20} color="#ec4899" /> {/* Réduit de 24 */}
               </motion.div>
             </motion.button>
           ))}
@@ -352,8 +354,8 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{
               delay: 0.6,
-              duration: 0.7,
-              ease: [0.4, 0, 0.2, 1],
+              duration: 0.9,
+              ease: [0.25, 0.1, 0.25, 1],
             }}
             style={{
               flex: '0 0 auto',
@@ -361,13 +363,13 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-start',
-              paddingTop: '4rem', // Aligné avec le début des cartes (après le titre)
+              paddingTop: '9.5rem', // Aligné avec le début des cartes (hauteur h1 ~3rem + margin h1 1rem + hauteur p ~1.5rem + marginBottom conteneur 4rem)
             }}
           >
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
+              transition={{ delay: 0.8, duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
               style={{
                 background: 'rgba(236, 72, 153, 0.08)',
                 border: '2px solid rgba(236, 72, 153, 0.25)',
