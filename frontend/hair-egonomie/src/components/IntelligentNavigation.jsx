@@ -112,156 +112,92 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
         }}
       />
 
-      {/* Titre avec indication d'état mental */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        style={{
-          maxWidth: '600px',
-          width: '100%',
-          textAlign: 'center',
-          marginBottom: recommendations.length > 0 ? '2rem' : '4rem',
-          position: 'relative',
-          zIndex: 10,
-        }}
-      >
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          style={{
-            fontSize: 'clamp(2rem, 5vw, 3rem)',
-            fontWeight: 700,
-            color: 'white',
-            marginBottom: '1rem',
-            letterSpacing: '-0.02em',
-            textShadow: '0 5px 20px rgba(236, 72, 153, 0.3)',
-          }}
-        >
-          Que voulez-vous faire aujourd'hui ?
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
-          style={{
-            fontSize: '1.125rem',
-            color: 'rgba(255, 255, 255, 0.8)',
-            fontWeight: 400,
-          }}
-        >
-          Navigation adaptée à vos besoins
-        </motion.p>
-      </motion.div>
-
-      {/* Recommandations instantanées */}
-      {recommendations.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-          style={{
-            maxWidth: '600px',
-            width: '100%',
-            marginBottom: '2rem',
-            position: 'relative',
-            zIndex: 10,
-          }}
-        >
-          <div
-            style={{
-              background: 'rgba(236, 72, 153, 0.1)',
-              border: '2px solid rgba(236, 72, 153, 0.3)',
-              borderRadius: '1rem',
-              padding: '1rem 1.5rem',
-              backdropFilter: 'blur(10px)',
-            }}
-          >
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '0.75rem',
-              }}
-            >
-              <IconSparkles size={20} color="#ec4899" />
-              <span
-                style={{
-                  fontSize: '0.875rem',
-                  fontWeight: 600,
-                  color: '#ec4899',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.05em',
-                }}
-              >
-                Recommandation
-              </span>
-            </div>
-            {recommendations.map((rec) => {
-              const item = availableItems.find((i) => i.id === rec.id);
-              return (
-                <motion.button
-                  key={rec.id}
-                  whileHover={{ scale: 1.02, x: 5 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleRecommendationClick({ ...item, recommendationReason: rec.reason })}
-                  style={{
-                    width: '100%',
-                    padding: '0.75rem 1rem',
-                    background: 'rgba(236, 72, 153, 0.2)',
-                    border: '1px solid rgba(236, 72, 153, 0.4)',
-                    borderRadius: '0.5rem',
-                    color: 'white',
-                    textAlign: 'left',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginTop: '0.5rem',
-                  }}
-                >
-                  <div>
-                    <div style={{ fontWeight: 600, color: '#ec4899', marginBottom: '0.25rem' }}>
-                      {item?.label}
-                    </div>
-                    <div style={{ fontSize: '0.75rem', color: 'rgba(255, 255, 255, 0.7)' }}>
-                      {rec.reason}
-                    </div>
-                  </div>
-                  <IconArrowRight size={20} color="currentColor" />
-                </motion.button>
-              );
-            })}
-          </div>
-        </motion.div>
-      )}
-
-      {/* Options de navigation ordonnées intelligemment */}
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: {
-              staggerChildren: 0.2,
-              delayChildren: 0.4,
-            },
-          },
-        }}
+      {/* Conteneur principal avec layout flex */}
+      <div
         style={{
           display: 'flex',
-          flexDirection: 'column',
-          gap: '1.25rem',
           width: '100%',
-          maxWidth: '500px',
+          maxWidth: '1400px',
+          gap: '3rem',
+          alignItems: 'flex-start',
+          justifyContent: 'center',
           position: 'relative',
           zIndex: 10,
+          padding: '0 2rem',
         }}
       >
+        {/* Colonne gauche : Titre et Options */}
+        <div
+          style={{
+            flex: 1,
+            maxWidth: '600px',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          {/* Titre */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            style={{
+              width: '100%',
+              textAlign: 'center',
+              marginBottom: '4rem',
+            }}
+          >
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              style={{
+                fontSize: 'clamp(2rem, 5vw, 3rem)',
+                fontWeight: 700,
+                color: 'white',
+                marginBottom: '1rem',
+                letterSpacing: '-0.02em',
+                textShadow: '0 5px 20px rgba(236, 72, 153, 0.3)',
+              }}
+            >
+              Que voulez-vous faire aujourd'hui ?
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              style={{
+                fontSize: '1.125rem',
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontWeight: 400,
+              }}
+            >
+              Navigation adaptée à vos besoins
+            </motion.p>
+          </motion.div>
+
+          {/* Options de navigation ordonnées intelligemment */}
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.2,
+                  delayChildren: 0.4,
+                },
+              },
+            }}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1.25rem',
+              width: '100%',
+              maxWidth: '500px',
+            }}
+          >
         <AnimatePresence>
           {itemsWithRecommendations.map((item, index) => (
             <motion.button
