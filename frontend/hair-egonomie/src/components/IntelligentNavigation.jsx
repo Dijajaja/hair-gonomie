@@ -274,13 +274,13 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
               style={{
-                background: 'rgba(236, 72, 153, 0.08)',
-                border: '2px solid rgba(236, 72, 153, 0.25)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
                 borderRadius: '1.25rem',
                 padding: '1rem',
                 backdropFilter: 'blur(20px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                boxShadow: '0 20px 60px -12px rgba(236, 72, 153, 0.3)',
+                boxShadow: '0 20px 60px -12px rgba(255, 255, 255, 0.08)',
               }}
             >
               <motion.div
@@ -344,8 +344,8 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                       style={{
                         width: '100%',
                         padding: '0.625rem 0.875rem',
-                        background: 'rgba(236, 72, 153, 0.15)',
-                        border: '1.5px solid rgba(236, 72, 153, 0.4)',
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        border: '1.5px solid rgba(255, 255, 255, 0.25)',
                         borderRadius: '0.75rem',
                         color: 'white',
                         textAlign: 'left',
@@ -356,7 +356,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                         position: 'relative',
                         overflow: 'hidden',
                         transition: 'all 0.3s ease',
-                        boxShadow: '0 6px 20px -4px rgba(236, 72, 153, 0.2)',
+                        boxShadow: '0 6px 20px -4px rgba(255, 255, 255, 0.08)',
                       }}
                     >
                       {/* Effet de brillance au survol */}
@@ -367,7 +367,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                           left: '-100%',
                           width: '100%',
                           height: '100%',
-                          background: 'linear-gradient(90deg, transparent, rgba(236, 72, 153, 0.15), transparent)',
+                          background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
                         }}
                         whileHover={{ left: '100%' }}
                         transition={{ duration: 0.6 }}
@@ -473,13 +473,13 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
               style={{
                 padding: '1.25rem 1.5rem', // Réduit de 1.75rem 2rem
                 background: item.isRecommended
-                  ? 'rgba(236, 72, 153, 0.15)'
+                  ? 'rgba(255, 255, 255, 0.1)'
                   : 'rgba(20, 20, 20, 0.6)',
                 backdropFilter: 'blur(20px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                 border: item.isRecommended
-                  ? '2px solid rgba(236, 72, 153, 0.5)'
-                  : '1px solid rgba(236, 72, 153, 0.2)',
+                  ? '2px solid rgba(255, 255, 255, 0.35)'
+                  : '1px solid rgba(255, 255, 255, 0.15)',
                 borderRadius: '1.25rem', // Légèrement réduit
                 cursor: 'pointer',
                 textAlign: 'left',
@@ -488,8 +488,8 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                 gap: '1.25rem', // Réduit de 1.5rem
                 transition: 'all 0.3s ease',
                 boxShadow: item.isRecommended
-                  ? '0 10px 35px -8px rgba(236, 72, 153, 0.4)'
-                  : '0 6px 28px rgba(236, 72, 153, 0.1)',
+                  ? '0 10px 35px -8px rgba(255, 255, 255, 0.15)'
+                  : '0 6px 28px rgba(0, 0, 0, 0.2)',
                 position: 'relative',
                 overflow: 'hidden',
                 zIndex: 20, // Assure que les boutons sont cliquables

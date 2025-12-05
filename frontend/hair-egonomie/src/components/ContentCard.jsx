@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect, useState, useRef } from 'react';
 import TradingBackground from './TradingBackground';
 import NextButton from './NextButton';
+
 import { IconArticle, IconExample, IconExercise, IconSummary, IconCheck } from './icons';
 
 const ContentCard = ({ content, onNext, onComplete }) => {
@@ -110,7 +111,7 @@ const ContentCard = ({ content, onNext, onComplete }) => {
 
   const getContentIcon = (contentType) => {
     const iconSize = 24;
-    const iconColor = 'rgba(236, 72, 153, 0.9)';
+    const iconColor = 'rgba(255, 255, 255, 0.9)';
     
     switch (contentType) {
       case 'article':
@@ -185,10 +186,10 @@ const ContentCard = ({ content, onNext, onComplete }) => {
               padding: '3rem',
               boxShadow: `
                 0 20px 60px rgba(0, 0, 0, 0.5),
-                0 8px 32px rgba(236, 72, 153, 0.2),
-                inset 0 1px 0 rgba(236, 72, 153, 0.15)
+                0 8px 32px rgba(255, 255, 255, 0.08),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1)
               `,
-              border: '1px solid rgba(236, 72, 153, 0.2)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
             }}
           >
             {/* En-tête avec icône */}
@@ -202,7 +203,7 @@ const ContentCard = ({ content, onNext, onComplete }) => {
                 gap: '1rem',
                 marginBottom: '2rem',
                 paddingBottom: '1.5rem',
-                borderBottom: '1px solid rgba(236, 72, 153, 0.1)',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
               }}
             >
               <motion.div
@@ -280,7 +281,7 @@ const ContentCard = ({ content, onNext, onComplete }) => {
                 style={{
                   marginTop: '2rem',
                   paddingTop: '1.5rem',
-                  borderTop: '1px solid rgba(236, 72, 153, 0.1)',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -299,7 +300,7 @@ const ContentCard = ({ content, onNext, onComplete }) => {
                       gap: '0.5rem',
                     }}
                   >
-                    <IconCheck size={16} color="rgba(236, 72, 153, 0.9)" style={{ marginRight: '0.25rem' }} />
+                    <IconCheck size={16} color="rgba(255, 255, 255, 0.9)" style={{ marginRight: '0.25rem' }} />
                     <span>Lu</span>
                   </motion.span>
                 )}

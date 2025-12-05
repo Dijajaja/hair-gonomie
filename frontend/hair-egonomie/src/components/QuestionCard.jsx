@@ -62,7 +62,7 @@ const DEMO_QUESTIONS = {
 };
 
 // Délai d'avance automatique (ms) - défini avant utilisation
-const AUTO_ADVANCE_DELAY = 10000; // 10 secondes par question
+const AUTO_ADVANCE_DELAY = 90000; // 1 minute 30 secondes par question
 
 const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
   const [questions, setQuestions] = useState([]);
@@ -526,9 +526,9 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
           top: 0,
           left: 0,
           height: '3px',
-          background: 'linear-gradient(90deg, #ec4899 0%, #db2777 50%, #be185d 100%)',
+          background: 'rgba(255, 255, 255, 0.9)',
           zIndex: 1000,
-          boxShadow: '0 2px 20px rgba(236, 72, 153, 0.5)',
+          boxShadow: '0 2px 20px rgba(255, 255, 255, 0.2)',
         }}
       />
 
@@ -605,10 +605,10 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
                       height: 'clamp(6px, 1.5vw, 8px)',
                       borderRadius: '50%',
                       background: index === currentQuestionIndex
-                        ? '#ec4899'
+                        ? 'rgba(255, 255, 255, 0.9)'
                         : index < currentQuestionIndex
-                        ? 'rgba(236, 72, 153, 0.6)'
-                        : 'rgba(236, 72, 153, 0.2)',
+                        ? 'rgba(255, 255, 255, 0.5)'
+                        : 'rgba(255, 255, 255, 0.2)',
                       transition: 'all 0.3s ease',
                     }}
                   />
@@ -624,10 +624,7 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
               style={{
                 fontSize: 'clamp(1.5rem, 4vw, 2rem)',
                 fontWeight: 700,
-                background: 'linear-gradient(135deg, #ec4899 0%, #db2777 50%, #f472b6 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
+                color: 'rgba(255, 255, 255, 0.95)',
                 marginBottom: 'clamp(1.5rem, 4vw, 3rem)',
                 lineHeight: 1.3,
                 letterSpacing: '-0.02em',
@@ -661,8 +658,8 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
                     padding: 'clamp(1rem, 3vw, 1.5rem)',
                     fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
                     color: 'rgba(255, 255, 255, 0.95)',
-                    background: 'rgba(236, 72, 153, 0.1)',
-                    border: '2px solid rgba(236, 72, 153, 0.3)',
+                    background: 'rgba(255, 255, 255, 0.05)',
+                    border: '2px solid rgba(255, 255, 255, 0.2)',
                     borderRadius: 'clamp(0.75rem, 2vw, 1rem)',
                     resize: 'vertical',
                     fontFamily: 'inherit',
@@ -671,11 +668,11 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
                     transition: 'all 0.3s ease',
                   }}
                   onFocus={(e) => {
-                    e.target.style.borderColor = 'rgba(236, 72, 153, 0.6)';
-                    e.target.style.boxShadow = '0 0 0 3px rgba(236, 72, 153, 0.2)';
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+                    e.target.style.boxShadow = '0 0 0 3px rgba(255, 255, 255, 0.1)';
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = 'rgba(236, 72, 153, 0.3)';
+                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.2)';
                     e.target.style.boxShadow = 'none';
                   }}
                 />
@@ -901,7 +898,7 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
                     transition={{ delay: 0.4 }}
                     whileHover={{
                       scale: 1.05,
-                      boxShadow: '0 12px 40px -8px rgba(236, 72, 153, 0.5)',
+                      boxShadow: '0 12px 40px -8px rgba(255, 255, 255, 0.15)',
                     }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
@@ -912,15 +909,15 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
                       padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1.25rem, 3vw, 2rem)',
                       fontSize: 'clamp(0.875rem, 2vw, 1rem)',
                       fontWeight: 600,
-                      border: 'none',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
                       borderRadius: 'clamp(0.5rem, 2vw, 0.75rem)',
-                      background: 'linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%)',
+                      background: 'rgba(255, 255, 255, 0.12)',
                       color: 'white',
                       cursor: 'pointer',
                       display: 'flex',
                       alignItems: 'center',
                       gap: 'clamp(0.5rem, 1.5vw, 0.75rem)',
-                      boxShadow: '0 8px 24px rgba(236, 72, 153, 0.4)',
+                      boxShadow: '0 8px 24px rgba(255, 255, 255, 0.1)',
                       width: 'auto',
                       minWidth: 'fit-content',
                     }}
@@ -951,7 +948,7 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
                     transition={{ delay: 0.4 }}
                     whileHover={{
                       scale: 1.05,
-                      boxShadow: '0 12px 40px -8px rgba(236, 72, 153, 0.5)',
+                      boxShadow: '0 12px 40px -8px rgba(255, 255, 255, 0.15)',
                     }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => {
@@ -967,12 +964,12 @@ const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
                       padding: 'clamp(0.75rem, 2vw, 1rem) clamp(1.25rem, 3vw, 2rem)',
                       fontSize: 'clamp(0.875rem, 2vw, 1rem)',
                       fontWeight: 600,
-                      border: 'none',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
                       borderRadius: 'clamp(0.5rem, 2vw, 0.75rem)',
-                      background: 'linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%)',
+                      background: 'rgba(255, 255, 255, 0.12)',
                       color: 'white',
                       cursor: 'pointer',
-                      boxShadow: '0 8px 24px rgba(236, 72, 153, 0.4)',
+                      boxShadow: '0 8px 24px rgba(255, 255, 255, 0.1)',
                       width: 'auto',
                       minWidth: 'fit-content',
                     }}

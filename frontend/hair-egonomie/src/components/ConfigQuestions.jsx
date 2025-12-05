@@ -366,18 +366,18 @@ const ConfigQuestions = ({ onComplete }) => {
                         WebkitBackfaceVisibility: 'hidden',
                         background: 'rgba(20, 20, 20, 0.6)',
                         backdropFilter: 'blur(20px) saturate(180%)',
-                        border: '2px solid rgba(236, 72, 153, 0.2)',
+                        border: '2px solid rgba(255, 255, 255, 0.15)',
                         borderRadius: '1.5rem',
                         padding: '2rem',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 8px 32px rgba(236, 72, 153, 0.1)',
+                        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
                       }}
                       whileHover={{
-                        borderColor: 'rgba(236, 72, 153, 0.5)',
-                        boxShadow: '0 12px 40px rgba(236, 72, 153, 0.3)',
+                        borderColor: 'rgba(255, 255, 255, 0.35)',
+                        boxShadow: '0 12px 40px rgba(255, 255, 255, 0.1)',
                         scale: 1.05,
                       }}
                     >
@@ -389,7 +389,7 @@ const ConfigQuestions = ({ onComplete }) => {
                           justifyContent: 'center',
                         }}
                       >
-                        {IconComponent && <IconComponent size={48} color="rgba(236, 72, 153, 0.9)" />}
+                        {IconComponent && <IconComponent size={48} color="rgba(255, 255, 255, 0.9)" />}
                       </div>
                       <h3
                         style={{
@@ -437,16 +437,16 @@ const ConfigQuestions = ({ onComplete }) => {
                         backfaceVisibility: 'hidden',
                         WebkitBackfaceVisibility: 'hidden',
                         transform: 'rotateY(180deg)',
-                        background: 'rgba(236, 72, 153, 0.15)',
+                        background: 'rgba(255, 255, 255, 0.08)',
                         backdropFilter: 'blur(20px) saturate(180%)',
-                        border: '2px solid rgba(236, 72, 153, 0.4)',
+                        border: '2px solid rgba(255, 255, 255, 0.25)',
                         borderRadius: '1.5rem',
                         padding: '2rem',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        boxShadow: '0 12px 40px rgba(236, 72, 153, 0.3)',
+                        boxShadow: '0 12px 40px rgba(255, 255, 255, 0.1)',
                       }}
                     >
                       <div
