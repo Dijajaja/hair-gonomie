@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useEffect } from 'react';
+import { IconSparkles, IconTarget, IconRocket } from './icons';
 
 const SplashScreen = ({ next }) => {
   useEffect(() => {
@@ -117,7 +118,7 @@ const SplashScreen = ({ next }) => {
           style={{
             fontSize: 'clamp(2.5rem, 8vw, 5rem)',
             fontWeight: 700,
-            background: 'linear-gradient(135deg, #ec4899 0%, #db2777 40%, #f472b6 60%, #ec4899 100%)',
+            background: 'linear-gradient(135deg, #ec4899 0%, #f472b6 40%, #f472b6 60%, #ec4899 100%)',
             backgroundSize: '200% 200%',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
@@ -182,9 +183,9 @@ const SplashScreen = ({ next }) => {
             }}
           >
             {[
-              { icon: '✨', text: 'Navigation intelligente et adaptative' },
-              { icon: '🎯', text: 'Parcours personnalisé selon vos besoins' },
-              { icon: '🚀', text: 'Révélation progressive pour une meilleure compréhension' },
+              { Icon: IconSparkles, text: 'Navigation intelligente et adaptative' },
+              { Icon: IconTarget, text: 'Parcours personnalisé selon vos besoins' },
+              { Icon: IconRocket, text: 'Révélation progressive pour une meilleure compréhension' },
             ].map((feature, index) => (
               <motion.div
                 key={index}
@@ -200,7 +201,7 @@ const SplashScreen = ({ next }) => {
                   fontWeight: 400,
                 }}
               >
-                <span style={{ fontSize: '1.2em' }}>{feature.icon}</span>
+                <feature.Icon size={20} color="rgba(236, 72, 153, 0.75)" />
                 <span>{feature.text}</span>
               </motion.div>
             ))}

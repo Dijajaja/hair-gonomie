@@ -19,7 +19,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
       label: 'Découvrir',
       IconComponent: IconDiscover,
       description: 'Explorez les concepts clés de l\'ergonomie',
-      color: '#ec4899',
+      color: '#be185d',
       type: 'discover',
       complexity: 'simple',
       recommended: false,
@@ -29,7 +29,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
       label: 'Apprendre',
       IconComponent: IconLearn,
       description: 'Approfondissez vos connaissances en UX/UI',
-      color: '#db2777',
+      color: '#9f1239',
       type: 'learn',
       complexity: 'medium',
       recommended: false,
@@ -191,7 +191,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.01) 0%, transparent 50%),
+            radial-gradient(circle at 20% 30%, rgba(190, 24, 93, 0.01) 0%, transparent 50%),
             radial-gradient(circle at 80% 70%, rgba(219, 39, 119, 0.01) 0%, transparent 50%)
           `,
           pointerEvents: 'none',
@@ -233,7 +233,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
               color: 'rgba(255, 255, 255, 0.95)',
               marginBottom: '1rem',
               letterSpacing: '-0.02em',
-              textShadow: '0 5px 20px rgba(236, 72, 153, 0.4)',
+              textShadow: '0 5px 20px rgba(190, 24, 93, 0.4)',
             }}
           >
             Que voulez-vous faire aujourd'hui ?
@@ -298,7 +298,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                 >
-                  <IconSparkles size={18} color="#ec4899" />
+                  <IconSparkles size={18} color="#be185d" />
                 </motion.div>
                 <span
                   style={{
@@ -453,11 +453,17 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                 hidden: { opacity: 0, y: 40, scale: 0.9 },
                 visible: {
                   opacity: 1,
-                  y: 0,
+                  y: [0, -5, 0],
                   scale: 1,
                   transition: {
                     duration: 0.7,
                     ease: [0.25, 0.1, 0.25, 1],
+                    y: {
+                      duration: 3 + index * 0.3,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: index * 0.2
+                    }
                   },
                 },
               }}
@@ -506,7 +512,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                     position: 'absolute',
                     top: '0.625rem', // Réduit
                     right: '0.625rem', // Réduit
-                    background: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)',
+                    background: 'linear-gradient(135deg, #be185d 0%, #9f1239 100%)',
                     color: 'white',
                     fontSize: '0.7rem', // Réduit
                     fontWeight: 600,
@@ -514,7 +520,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                     borderRadius: '0.75rem',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em',
-                    boxShadow: '0 4px 12px rgba(236, 72, 153, 0.4)',
+                    boxShadow: '0 4px 12px rgba(190, 24, 93, 0.4)',
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>

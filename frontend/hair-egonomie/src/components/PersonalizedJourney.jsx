@@ -106,7 +106,7 @@ const PersonalizedJourney = ({ journey, onStart }) => {
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 20% 30%, rgba(190, 24, 93, 0.03) 0%, transparent 50%),
             radial-gradient(circle at 80% 70%, rgba(219, 39, 119, 0.02) 0%, transparent 50%)
           `,
           pointerEvents: 'none',
@@ -138,7 +138,7 @@ const PersonalizedJourney = ({ journey, onStart }) => {
             color: 'white',
             marginBottom: '1rem',
             letterSpacing: '-0.02em',
-            textShadow: '0 5px 20px rgba(236, 72, 153, 0.3)',
+            textShadow: '0 5px 20px rgba(190, 24, 93, 0.3)',
           }}
         >
           Votre parcours personnalisé
@@ -165,11 +165,11 @@ const PersonalizedJourney = ({ journey, onStart }) => {
           style={{
             background: 'rgba(20, 20, 20, 0.6)',
             backdropFilter: 'blur(20px) saturate(180%)',
-            border: '2px solid rgba(236, 72, 153, 0.2)',
+            border: '2px solid rgba(190, 24, 93, 0.2)',
             borderRadius: '2rem',
             padding: '3rem',
             marginBottom: '3rem',
-            boxShadow: '0 20px 60px rgba(236, 72, 153, 0.2)',
+            boxShadow: '0 20px 60px rgba(190, 24, 93, 0.2)',
           }}
         >
           <h2
@@ -195,16 +195,28 @@ const PersonalizedJourney = ({ journey, onStart }) => {
               <motion.div
                 key={index}
                 initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1 + index * 0.15 }}
+                animate={{ 
+                  opacity: 1, 
+                  x: 0,
+                  y: [0, -4, 0]
+                }}
+                transition={{ 
+                  delay: 1 + index * 0.15,
+                  y: {
+                    duration: 3 + index * 0.25,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1 + index * 0.15
+                  }
+                }}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
                   gap: '1.5rem',
                   padding: '1.5rem',
-                  background: 'rgba(236, 72, 153, 0.1)',
+                  background: 'rgba(190, 24, 93, 0.1)',
                   borderRadius: '1rem',
-                  border: '1px solid rgba(236, 72, 153, 0.2)',
+                  border: '1px solid rgba(190, 24, 93, 0.2)',
                 }}
               >
                 <div
@@ -217,7 +229,7 @@ const PersonalizedJourney = ({ journey, onStart }) => {
                   }}
                 >
                   {module.icon && typeof module.icon === 'function' ? (
-                    <module.icon size={40} color="rgba(236, 72, 153, 0.9)" />
+                    <module.icon size={40} color="rgba(190, 24, 93, 0.9)" />
                   ) : (
                     module.icon
                   )}
@@ -253,7 +265,7 @@ const PersonalizedJourney = ({ journey, onStart }) => {
                   {index < journey.modules.length - 1 ? (
                     <IconArrowRight size={24} color="rgba(255, 255, 255, 0.6)" />
                   ) : (
-                    <IconCheck size={24} color="rgba(236, 72, 153, 0.9)" />
+                    <IconCheck size={24} color="rgba(190, 24, 93, 0.9)" />
                   )}
                 </div>
               </motion.div>

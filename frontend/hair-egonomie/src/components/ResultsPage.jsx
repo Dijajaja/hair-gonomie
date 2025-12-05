@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import TradingBackground from './TradingBackground';
+import { IconSparkles } from './icons';
 
 const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) => {
   // Calculer le pourcentage correctement - seulement si des questions ont été répondues
@@ -37,7 +38,7 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 20% 30%, rgba(190, 24, 93, 0.03) 0%, transparent 50%),
             radial-gradient(circle at 80% 70%, rgba(219, 39, 119, 0.02) 0%, transparent 50%)
           `,
           pointerEvents: 'none',
@@ -63,11 +64,13 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.4, duration: 0.6, ease: [0.34, 1.56, 0.64, 1] }}
           style={{
-            fontSize: '5rem',
             marginBottom: '2rem',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          ✨
+          <IconSparkles size={80} color="rgba(190, 24, 93, 0.9)" />
         </motion.div>
 
         {/* Titre */}
@@ -81,7 +84,7 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
             color: 'white',
             marginBottom: '1rem',
             letterSpacing: '-0.02em',
-            textShadow: '0 5px 20px rgba(236, 72, 153, 0.3)',
+            textShadow: '0 5px 20px rgba(190, 24, 93, 0.3)',
           }}
         >
           Parcours terminé !
@@ -105,17 +108,30 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
         {/* Carte de résultats élégante */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
+          animate={{ 
+            opacity: 1, 
+            scale: 1,
+            y: [0, -6, 0]
+          }}
+          transition={{ 
+            delay: 0.7, 
+            duration: 0.5,
+            y: {
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.7
+            }
+          }}
           style={{
             background: 'rgba(20, 20, 20, 0.6)',
             backdropFilter: 'blur(20px) saturate(180%)',
             WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-            border: '2px solid rgba(236, 72, 153, 0.2)',
+            border: '2px solid rgba(190, 24, 93, 0.2)',
             borderRadius: '2rem',
             padding: '3rem',
             marginBottom: '3rem',
-            boxShadow: '0 20px 60px rgba(236, 72, 153, 0.2)',
+            boxShadow: '0 20px 60px rgba(190, 24, 93, 0.2)',
           }}
         >
           {/* Barre de progression circulaire */}
@@ -137,7 +153,7 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
                 cy="75"
                 r="65"
                 fill="none"
-                stroke="rgba(236, 72, 153, 0.1)"
+                stroke="rgba(190, 24, 93, 0.1)"
                 strokeWidth="12"
               />
               {/* Cercle de progression animé */}
@@ -155,8 +171,8 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
               />
               <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#ec4899" />
-                  <stop offset="50%" stopColor="#db2777" />
+                  <stop offset="0%" stopColor="#be185d" />
+                  <stop offset="50%" stopColor="#9f1239" />
                   <stop offset="100%" stopColor="#be185d" />
                 </linearGradient>
               </defs>
@@ -195,7 +211,7 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
                   marginBottom: '0.5rem',
                 }}
               >
-                {completedQuestions}
+                {completedQuestions}/{totalQuestions}
               </div>
               <div
                 style={{
@@ -205,7 +221,7 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
                   letterSpacing: '0.05em',
                 }}
               >
-                Questions
+                Réponses correctes
               </div>
             </div>
             <div>
@@ -240,7 +256,7 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
           transition={{ delay: 1, duration: 0.5 }}
           whileHover={{
             scale: 1.05,
-            boxShadow: '0 15px 50px -10px rgba(236, 72, 153, 0.6)',
+            boxShadow: '0 15px 50px -10px rgba(190, 24, 93, 0.6)',
           }}
           whileTap={{ scale: 0.95 }}
           onClick={onRestart}
@@ -250,10 +266,10 @@ const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) =>
             fontWeight: 600,
             border: 'none',
             borderRadius: '1rem',
-            background: 'linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%)',
+            background: 'linear-gradient(135deg, #be185d 0%, #9f1239 50%, #be185d 100%)',
             color: 'white',
             cursor: 'pointer',
-            boxShadow: '0 12px 40px rgba(236, 72, 153, 0.5)',
+            boxShadow: '0 12px 40px rgba(190, 24, 93, 0.5)',
             display: 'flex',
             alignItems: 'center',
             gap: '1rem',

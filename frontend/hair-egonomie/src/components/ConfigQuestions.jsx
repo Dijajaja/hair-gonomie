@@ -201,7 +201,7 @@ const ConfigQuestions = ({ onComplete }) => {
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 20% 30%, rgba(190, 24, 93, 0.03) 0%, transparent 50%),
             radial-gradient(circle at 80% 70%, rgba(219, 39, 119, 0.02) 0%, transparent 50%)
           `,
           pointerEvents: 'none',
@@ -219,9 +219,9 @@ const ConfigQuestions = ({ onComplete }) => {
           top: 0,
           left: 0,
           height: '4px',
-          background: 'linear-gradient(90deg, #ec4899 0%, #db2777 100%)',
+          background: 'linear-gradient(90deg, #be185d 0%, #9f1239 100%)',
           zIndex: 1000,
-          boxShadow: '0 2px 10px rgba(236, 72, 153, 0.3)',
+          boxShadow: '0 2px 10px rgba(190, 24, 93, 0.3)',
         }}
       />
 
@@ -237,9 +237,22 @@ const ConfigQuestions = ({ onComplete }) => {
           <motion.div
             key={currentQuestionIndex}
             initial={{ opacity: 0, x: 50, scale: 0.95 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
+            animate={{ 
+              opacity: 1, 
+              x: 0, 
+              scale: 1,
+              y: [0, -6, 0],
+            }}
             exit={{ opacity: 0, x: -50, scale: 0.95 }}
-            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ 
+              duration: 0.5, 
+              ease: [0.4, 0, 0.2, 1],
+              y: {
+                duration: 3.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }
+            }}
           >
             {/* En-tête de la question */}
             <motion.div
@@ -270,7 +283,7 @@ const ConfigQuestions = ({ onComplete }) => {
                   color: 'rgba(255, 255, 255, 0.95)',
                   marginBottom: '1rem',
                   letterSpacing: '-0.02em',
-                  textShadow: '0 5px 20px rgba(236, 72, 153, 0.3)',
+                  textShadow: '0 5px 20px rgba(190, 24, 93, 0.3)',
                 }}
               >
                 {currentQuestion.question}
@@ -297,7 +310,7 @@ const ConfigQuestions = ({ onComplete }) => {
                     justifyContent: 'center',
                     gap: '0.5rem',
                     fontSize: '0.75rem',
-                    color: 'rgba(236, 72, 153, 0.8)',
+                    color: 'rgba(190, 24, 93, 0.8)',
                     fontStyle: 'italic',
                     marginTop: '0.5rem',
                   }}
@@ -341,11 +354,18 @@ const ConfigQuestions = ({ onComplete }) => {
                     animate={{
                       rotateY: flippedCards[option.id] ? 180 : 0,
                       scale: flippedCards[option.id] ? 1.05 : 1,
+                      y: flippedCards[option.id] ? 0 : [0, -4, 0],
                     }}
                     transition={{ 
                       duration: 0.7, 
                       ease: [0.4, 0, 0.2, 1],
-                      scale: { duration: 0.3 }
+                      scale: { duration: 0.3 },
+                      y: {
+                        duration: 2.5 + index * 0.2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.15
+                      }
                     }}
                     style={{
                       width: '100%',

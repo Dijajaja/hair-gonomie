@@ -175,9 +175,21 @@ const ContentCard = ({ content, onNext, onComplete }) => {
           <motion.div
             key={content.id}
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
+            animate={{ 
+              opacity: 1, 
+              y: [0, -7, 0], 
+              scale: 1 
+            }}
             exit={{ opacity: 0, y: -30, scale: 0.95 }}
-            transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ 
+              duration: 0.6, 
+              ease: [0.4, 0, 0.2, 1],
+              y: {
+                duration: 4.5,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }
+            }}
             style={{
               background: 'rgba(20, 20, 20, 0.7)',
               backdropFilter: 'blur(30px) saturate(180%)',

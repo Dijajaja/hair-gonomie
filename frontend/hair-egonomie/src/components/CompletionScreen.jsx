@@ -2,6 +2,10 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import TradingBackground from './TradingBackground';
 import NextButton from './NextButton';
+import { 
+  IconSearch, IconBookOpen, IconDumbbell, IconPen, IconStar, 
+  IconRefreshCw, IconRocket, IconSparkles 
+} from './icons';
 
 const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
   const [suggestions, setSuggestions] = useState([]);
@@ -12,19 +16,19 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
     const generateSuggestions = () => {
       const baseSuggestions = {
         "Découvrir": [
-          { label: "Explorer d'autres concepts", action: "explore", icon: "🔍" },
-          { label: "Passer à l'apprentissage", action: "learn", icon: "📚" },
-          { label: "Mettre en pratique", action: "practice", icon: "💪" },
+          { label: "Explorer d'autres concepts", action: "explore", Icon: IconSearch },
+          { label: "Passer à l'apprentissage", action: "learn", Icon: IconBookOpen },
+          { label: "Mettre en pratique", action: "practice", Icon: IconDumbbell },
         ],
         "Apprendre": [
-          { label: "Approfondir vos connaissances", action: "deepen", icon: "📖" },
-          { label: "Tester vos acquis", action: "test", icon: "✏️" },
-          { label: "Découvrir de nouveaux sujets", action: "discover", icon: "🌟" },
+          { label: "Approfondir vos connaissances", action: "deepen", Icon: IconBookOpen },
+          { label: "Tester vos acquis", action: "test", Icon: IconPen },
+          { label: "Découvrir de nouveaux sujets", action: "discover", Icon: IconStar },
         ],
         "S'exercer": [
-          { label: "Refaire les exercices", action: "retry", icon: "🔄" },
-          { label: "Consolider avec la théorie", action: "theory", icon: "📚" },
-          { label: "Explorer d'autres pratiques", action: "explore", icon: "🚀" },
+          { label: "Refaire les exercices", action: "retry", Icon: IconRefreshCw },
+          { label: "Consolider avec la théorie", action: "theory", Icon: IconBookOpen },
+          { label: "Explorer d'autres pratiques", action: "explore", Icon: IconRocket },
         ],
       };
 
@@ -78,7 +82,7 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
           right: 0,
           bottom: 0,
           background: `
-            radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.03) 0%, transparent 50%),
+            radial-gradient(circle at 20% 30%, rgba(190, 24, 93, 0.03) 0%, transparent 50%),
             radial-gradient(circle at 80% 70%, rgba(219, 39, 119, 0.02) 0%, transparent 50%)
           `,
           pointerEvents: 'none',
@@ -106,10 +110,10 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
             padding: '3rem',
             boxShadow: `
               0 20px 60px rgba(0, 0, 0, 0.5),
-              0 8px 32px rgba(236, 72, 153, 0.2),
-              inset 0 1px 0 rgba(236, 72, 153, 0.15)
+              0 8px 32px rgba(190, 24, 93, 0.2),
+              inset 0 1px 0 rgba(190, 24, 93, 0.15)
             `,
-            border: '1px solid rgba(236, 72, 153, 0.2)',
+            border: '1px solid rgba(190, 24, 93, 0.2)',
             textAlign: 'center',
           }}
         >
@@ -123,11 +127,13 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
               damping: 15,
             }}
             style={{
-              fontSize: '5rem',
               marginBottom: '1.5rem',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
-            ✨
+            <IconSparkles size={80} color="rgba(190, 24, 93, 0.9)" />
           </motion.div>
 
           <motion.h1
@@ -137,7 +143,7 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
             style={{
               fontSize: 'clamp(2rem, 5vw, 3rem)',
               fontWeight: 700,
-              background: 'linear-gradient(135deg, #ec4899 0%, #db2777 50%, #be185d 100%)',
+              background: 'linear-gradient(135deg, #be185d 0%, #9f1239 50%, #be185d 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -154,14 +160,14 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
             transition={{ delay: 0.3 }}
             style={{
               fontSize: '1.125rem',
-              color: 'rgba(236, 72, 153, 0.8)',
+              color: 'rgba(190, 24, 93, 0.8)',
               marginBottom: '2rem',
               lineHeight: 1.6,
             }}
           >
             Vous avez complété le parcours <strong>{mode}</strong> avec succès.
             {journeyStats && (
-              <span style={{ display: 'block', marginTop: '0.5rem', fontSize: '0.95rem', color: 'rgba(236, 72, 153, 0.6)' }}>
+              <span style={{ display: 'block', marginTop: '0.5rem', fontSize: '0.95rem', color: 'rgba(190, 24, 93, 0.6)' }}>
                 {journeyStats.stepsCompleted} étapes complétées
               </span>
             )}
@@ -176,7 +182,7 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
               style={{
                 marginTop: '2rem',
                 paddingTop: '2rem',
-                borderTop: '1px solid rgba(236, 72, 153, 0.1)',
+                borderTop: '1px solid rgba(190, 24, 93, 0.1)',
               }}
             >
               <motion.h3
@@ -186,7 +192,7 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
                 style={{
                   fontSize: '1.25rem',
                   fontWeight: 600,
-                  color: 'rgba(236, 72, 153, 0.9)',
+                  color: 'rgba(190, 24, 93, 0.9)',
                   marginBottom: '1.5rem',
                 }}
               >
@@ -237,7 +243,7 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
                       padding: '1.25rem 1.5rem',
                       background: 'rgba(30, 30, 30, 0.6)',
                       backdropFilter: 'blur(10px)',
-                      border: '1px solid rgba(236, 72, 153, 0.2)',
+                      border: '1px solid rgba(190, 24, 93, 0.2)',
                       borderRadius: '1rem',
                       cursor: 'pointer',
                       textAlign: 'left',
@@ -245,25 +251,25 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
                       alignItems: 'center',
                       gap: '1rem',
                       transition: 'all 0.3s ease',
-                      boxShadow: '0 4px 16px rgba(236, 72, 153, 0.1)',
+                      boxShadow: '0 4px 16px rgba(190, 24, 93, 0.1)',
                     }}
                     onHoverStart={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.5)';
-                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(236, 72, 153, 0.3)';
+                      e.currentTarget.style.borderColor = 'rgba(190, 24, 93, 0.5)';
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(190, 24, 93, 0.3)';
                       e.currentTarget.style.background = 'rgba(40, 40, 40, 0.8)';
                     }}
                     onHoverEnd={(e) => {
-                      e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.2)';
-                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(236, 72, 153, 0.1)';
+                      e.currentTarget.style.borderColor = 'rgba(190, 24, 93, 0.2)';
+                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(190, 24, 93, 0.1)';
                       e.currentTarget.style.background = 'rgba(30, 30, 30, 0.6)';
                     }}
                   >
-                    <span style={{ fontSize: '1.5rem' }}>{suggestion.icon}</span>
+                    <suggestion.Icon size={24} color="rgba(190, 24, 93, 0.9)" />
                     <span
                       style={{
                         fontSize: '1rem',
                         fontWeight: 500,
-                        color: 'rgba(236, 72, 153, 0.9)',
+                        color: 'rgba(190, 24, 93, 0.9)',
                       }}
                     >
                       {suggestion.label}
@@ -282,7 +288,7 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
             style={{
               marginTop: '2rem',
               paddingTop: '1.5rem',
-              borderTop: '1px solid rgba(236, 72, 153, 0.1)',
+              borderTop: '1px solid rgba(190, 24, 93, 0.1)',
             }}
           >
             <motion.button
@@ -293,21 +299,21 @@ const CompletionScreen = ({ mode, journeyStats, onRestart, onContinue }) => {
                 padding: '0.75rem 1.5rem',
                 fontSize: '0.875rem',
                 fontWeight: 500,
-                border: '1px solid rgba(236, 72, 153, 0.3)',
+                border: '1px solid rgba(190, 24, 93, 0.3)',
                 borderRadius: '0.75rem',
                 background: 'transparent',
-                color: 'rgba(236, 72, 153, 0.8)',
+                color: 'rgba(190, 24, 93, 0.8)',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
               }}
               onHoverStart={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.6)';
-                e.currentTarget.style.color = 'rgba(236, 72, 153, 1)';
-                e.currentTarget.style.background = 'rgba(236, 72, 153, 0.1)';
+                e.currentTarget.style.borderColor = 'rgba(190, 24, 93, 0.6)';
+                e.currentTarget.style.color = 'rgba(190, 24, 93, 1)';
+                e.currentTarget.style.background = 'rgba(190, 24, 93, 0.1)';
               }}
               onHoverEnd={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(236, 72, 153, 0.3)';
-                e.currentTarget.style.color = 'rgba(236, 72, 153, 0.8)';
+                e.currentTarget.style.borderColor = 'rgba(190, 24, 93, 0.3)';
+                e.currentTarget.style.color = 'rgba(190, 24, 93, 0.8)';
                 e.currentTarget.style.background = 'transparent';
               }}
             >

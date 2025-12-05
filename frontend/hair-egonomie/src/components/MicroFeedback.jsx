@@ -37,13 +37,13 @@ const MicroFeedback = ({ type, message, onDismiss }) => {
       case 'hint':
         return 'rgba(59, 130, 246, 0.2)'; // Blue
       case 'encouragement':
-        return 'rgba(236, 72, 153, 0.2)'; // Pink
+        return 'rgba(190, 24, 93, 0.2)'; // Pink
       case 'reminder':
         return 'rgba(245, 158, 11, 0.2)'; // Amber
       case 'success':
         return 'rgba(16, 185, 129, 0.2)'; // Green
       default:
-        return 'rgba(236, 72, 153, 0.2)';
+        return 'rgba(190, 24, 93, 0.2)';
     }
   };
 
@@ -91,7 +91,7 @@ const MicroFeedback = ({ type, message, onDismiss }) => {
           <span
             style={{
               fontSize: '0.875rem',
-              color: 'rgba(236, 72, 153, 0.9)',
+              color: 'rgba(190, 24, 93, 0.9)',
               fontWeight: 500,
             }}
           >

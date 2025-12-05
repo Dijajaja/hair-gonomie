@@ -30,10 +30,10 @@ const TradingBackground = () => {
           position: 'absolute',
           inset: 0,
           backgroundImage: `
-            linear-gradient(rgba(236, 72, 153, 0.25) 1px, transparent 1px), 
-            linear-gradient(90deg, rgba(236, 72, 153, 0.25) 1px, transparent 1px),
-            linear-gradient(rgba(219, 39, 119, 0.1) 1px, transparent 1px), 
-            linear-gradient(90deg, rgba(219, 39, 119, 0.1) 1px, transparent 1px)
+            linear-gradient(rgba(190, 24, 93, 0.25) 1px, transparent 1px), 
+            linear-gradient(90deg, rgba(190, 24, 93, 0.25) 1px, transparent 1px),
+            linear-gradient(rgba(159, 18, 57, 0.1) 1px, transparent 1px), 
+            linear-gradient(90deg, rgba(159, 18, 57, 0.1) 1px, transparent 1px)
           `,
           backgroundSize: '80px 80px, 80px 80px, 20px 20px, 20px 20px',
           backgroundPosition: '0 0, 0 0, 0 0, 0 0',
@@ -52,8 +52,8 @@ const TradingBackground = () => {
             height: '100%',
             background: `linear-gradient(180deg, 
               transparent 0%, 
-              rgba(236, 72, 153, ${0.1 + i * 0.05}) ${20 + i * 10}%, 
-              rgba(236, 72, 153, ${0.15 + i * 0.05}) ${50 + i * 5}%, 
+              rgba(190, 24, 93, ${0.1 + i * 0.05}) ${20 + i * 10}%, 
+              rgba(190, 24, 93, ${0.15 + i * 0.05}) ${50 + i * 5}%, 
               transparent 100%
             )`,
             left: `${15 + i * 15}%`,
@@ -82,10 +82,10 @@ const TradingBackground = () => {
             width: `${2 + (i % 3)}px`,
             height: `${2 + (i % 3)}px`,
             borderRadius: '50%',
-            background: `rgba(236, 72, 153, ${0.3 + (i % 3) * 0.2})`,
+            background: `rgba(190, 24, 93, ${0.3 + (i % 3) * 0.2})`,
             left: `${(i * 7) % 100}%`,
             top: `${(i * 11) % 100}%`,
-            boxShadow: `0 0 ${4 + i * 2}px rgba(236, 72, 153, 0.5)`,
+            boxShadow: `0 0 ${4 + i * 2}px rgba(190, 24, 93, 0.5)`,
           }}
           animate={{
             y: [0, -100, 0],
@@ -115,7 +115,7 @@ const TradingBackground = () => {
           borderRadius: '50%',
           mixBlendMode: 'screen',
           filter: 'blur(120px)',
-          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.7) 0%, rgba(219, 39, 119, 0.4) 35%, rgba(0,0,0,0) 65%)',
+          background: 'radial-gradient(circle, rgba(190, 24, 93, 0.7) 0%, rgba(159, 18, 57, 0.4) 35%, rgba(0,0,0,0) 65%)',
         }}
         animate={{
           x: [0, 80, -50, 40, 0],
@@ -141,7 +141,7 @@ const TradingBackground = () => {
           borderRadius: '50%',
           mixBlendMode: 'screen',
           filter: 'blur(130px)',
-          background: 'radial-gradient(circle, rgba(219, 39, 119, 0.6) 0%, rgba(190, 24, 93, 0.35) 35%, rgba(0,0,0,0) 65%)',
+          background: 'radial-gradient(circle, rgba(159, 18, 57, 0.6) 0%, rgba(190, 24, 93, 0.35) 35%, rgba(0,0,0,0) 65%)',
         }}
         animate={{
           x: [0, -90, 60, -50, 0],
@@ -169,7 +169,7 @@ const TradingBackground = () => {
           borderRadius: '50%',
           mixBlendMode: 'screen',
           filter: 'blur(140px)',
-          background: 'radial-gradient(circle, rgba(251, 113, 133, 0.5) 0%, rgba(236, 72, 153, 0.3) 35%, rgba(0,0,0,0) 65%)',
+          background: 'radial-gradient(circle, rgba(190, 24, 93, 0.5) 0%, rgba(190, 24, 93, 0.3) 35%, rgba(0,0,0,0) 65%)',
         }}
         animate={{
           opacity: [0.3, 0.45, 0.35, 0.4, 0.3],
@@ -194,7 +194,7 @@ const TradingBackground = () => {
           borderRadius: '50%',
           mixBlendMode: 'screen',
           filter: 'blur(110px)',
-          background: 'radial-gradient(circle, rgba(244, 114, 182, 0.45) 0%, rgba(236, 72, 153, 0.25) 35%, rgba(0,0,0,0) 65%)',
+          background: 'radial-gradient(circle, rgba(219, 39, 119, 0.45) 0%, rgba(190, 24, 93, 0.25) 35%, rgba(0,0,0,0) 65%)',
         }}
         animate={{
           x: [0, 45, -30, 25, 0],
@@ -220,7 +220,7 @@ const TradingBackground = () => {
           borderRadius: '50%',
           mixBlendMode: 'screen',
           filter: 'blur(115px)',
-          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, rgba(219, 39, 119, 0.22) 35%, rgba(0,0,0,0) 65%)',
+          background: 'radial-gradient(circle, rgba(190, 24, 93, 0.4) 0%, rgba(159, 18, 57, 0.22) 35%, rgba(0,0,0,0) 65%)',
         }}
         animate={{
           x: [0, -50, 35, -25, 0],
@@ -250,9 +250,9 @@ const TradingBackground = () => {
           position: 'absolute',
           inset: 0,
           background: `
-            radial-gradient(ellipse at 20% 30%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
-            radial-gradient(ellipse at 80% 70%, rgba(219, 39, 119, 0.12) 0%, transparent 50%),
-            radial-gradient(ellipse at 50% 50%, rgba(251, 113, 133, 0.1) 0%, transparent 60%)
+            radial-gradient(ellipse at 20% 30%, rgba(190, 24, 93, 0.15) 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 70%, rgba(159, 18, 57, 0.12) 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 50%, rgba(190, 24, 93, 0.1) 0%, transparent 60%)
           `,
           backgroundSize: '200% 200%',
           pointerEvents: 'none',
@@ -269,7 +269,7 @@ const TradingBackground = () => {
             height: '2px',
             background: `linear-gradient(90deg, 
               transparent 0%, 
-              rgba(236, 72, 153, ${0.3 + i * 0.1}) 50%, 
+              rgba(190, 24, 93, ${0.3 + i * 0.1}) 50%, 
               transparent 100%
             )`,
             left: `${20 + i * 25}%`,
@@ -301,18 +301,18 @@ const TradingBackground = () => {
             width: '4px',
             height: '4px',
             borderRadius: '50%',
-            background: 'rgba(236, 72, 153, 0.8)',
+            background: 'rgba(190, 24, 93, 0.8)',
             left: `${10 + (i * 12) % 80}%`,
             top: `${15 + (i * 15) % 70}%`,
-            boxShadow: '0 0 8px rgba(236, 72, 153, 0.8)',
+            boxShadow: '0 0 8px rgba(190, 24, 93, 0.8)',
           }}
           animate={{
             scale: [1, 2, 1],
             opacity: [0.5, 1, 0.5],
             boxShadow: [
-              '0 0 8px rgba(236, 72, 153, 0.8)',
-              '0 0 20px rgba(236, 72, 153, 1)',
-              '0 0 8px rgba(236, 72, 153, 0.8)',
+              '0 0 8px rgba(190, 24, 93, 0.8)',
+              '0 0 20px rgba(190, 24, 93, 1)',
+              '0 0 8px rgba(190, 24, 93, 0.8)',
             ],
           }}
           transition={{
