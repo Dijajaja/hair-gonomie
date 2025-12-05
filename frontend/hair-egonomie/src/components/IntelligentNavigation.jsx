@@ -342,7 +342,162 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
             </motion.button>
           ))}
         </AnimatePresence>
-      </motion.div>
+          </motion.div>
+        </div>
+
+        {/* Colonne droite : Recommandations */}
+        {recommendations.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, x: 100, scale: 0.9 }}
+            animate={{ opacity: 1, x: 0, scale: 1 }}
+            transition={{
+              delay: 0.6,
+              duration: 0.7,
+              ease: [0.4, 0, 0.2, 1],
+            }}
+            style={{
+              flex: '0 0 auto',
+              width: '380px',
+              position: 'sticky',
+              top: '2rem',
+              alignSelf: 'flex-start',
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              style={{
+                background: 'rgba(236, 72, 153, 0.08)',
+                border: '2px solid rgba(236, 72, 153, 0.25)',
+                borderRadius: '1.5rem',
+                padding: '1.5rem',
+                backdropFilter: 'blur(20px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+                boxShadow: '0 20px 60px -12px rgba(236, 72, 153, 0.3)',
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.9, duration: 0.4 }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  marginBottom: '1.25rem',
+                }}
+              >
+                <motion.div
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                >
+                  <IconSparkles size={24} color="#ec4899" />
+                </motion.div>
+                <span
+                  style={{
+                    fontSize: '0.875rem',
+                    fontWeight: 700,
+                    color: '#ec4899',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  Recommandation
+                </span>
+              </motion.div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                {recommendations.map((rec, index) => {
+                  const item = availableItems.find((i) => i.id === rec.id);
+                  return (
+                    <motion.button
+                      key={rec.id}
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: 1 + index * 0.15,
+                        duration: 0.5,
+                        ease: [0.4, 0, 0.2, 1],
+                      }}
+                      whileHover={{
+                        scale: 1.03,
+                        x: 5,
+                        transition: { duration: 0.2 },
+                      }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => handleRecommendationClick({ ...item, recommendationReason: rec.reason })}
+                      style={{
+                        width: '100%',
+                        padding: '1rem 1.25rem',
+                        background: 'rgba(236, 72, 153, 0.15)',
+                        border: '1.5px solid rgba(236, 72, 153, 0.4)',
+                        borderRadius: '1rem',
+                        color: 'white',
+                        textAlign: 'left',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '0.5rem',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 8px 24px -4px rgba(236, 72, 153, 0.2)',
+                      }}
+                    >
+                      {/* Effet de brillance au survol */}
+                      <motion.div
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: '-100%',
+                          width: '100%',
+                          height: '100%',
+                          background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+                        }}
+                        whileHover={{ left: '100%' }}
+                        transition={{ duration: 0.6 }}
+                      />
+
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                          {item?.IconComponent && (
+                            <motion.div
+                              whileHover={{ rotate: 15, scale: 1.1 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <item.IconComponent size={20} color="#ec4899" />
+                            </motion.div>
+                          )}
+                          <div style={{ fontWeight: 600, color: '#ec4899', fontSize: '0.95rem' }}>
+                            {item?.label}
+                          </div>
+                        </div>
+                        <motion.div
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                        >
+                          <IconArrowRight size={18} color="#ec4899" />
+                        </motion.div>
+                      </div>
+                      <div
+                        style={{
+                          fontSize: '0.8rem',
+                          color: 'rgba(255, 255, 255, 0.75)',
+                          lineHeight: 1.5,
+                          paddingLeft: '2.75rem',
+                        }}
+                      >
+                        {rec.reason}
+                      </div>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </div>
 
       {/* Indicateur d'état mental (optionnel, pour debug) */}
       {import.meta.env.DEV && (
