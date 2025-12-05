@@ -63,6 +63,20 @@ const ModeSelector = ({ onSelect }) => {
           zIndex: 0,
         }}
       />
+      
+      {/* Overlay sombre pour mieux voir les cartes */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'rgba(0, 0, 0, 0.1)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}

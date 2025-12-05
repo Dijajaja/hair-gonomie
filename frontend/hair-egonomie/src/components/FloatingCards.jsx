@@ -1,58 +1,199 @@
 import { motion } from 'framer-motion';
 
 const FloatingCards = () => {
-  // Configuration des cartes roses élégantes et innovantes
-  const cards = [
+  // Configuration des cartes - couloirs séparés pour éviter les croisements
+  // Couloir 1 : Haut de la page - mouvement de gauche à droite uniquement
+  const topLaneCards = [
     {
       id: 1,
-      width: 320,
-      height: 200,
-      x: '8%',
-      y: '12%',
+      width: 300,
+      height: 190,
+      y: '10%',      // Couloir haut
       rotation: -12,
       delay: 0,
       depth: 1,
+      speed: 12,
+      direction: 'left-to-right',
     },
     {
       id: 2,
       width: 280,
-      height: 180,
-      x: '75%',
-      y: '20%',
+      height: 175,
+      y: '10%',      // Même couloir haut
       rotation: 18,
-      delay: 0.4,
+      delay: 1.5,
       depth: 2,
+      speed: 14,
+      direction: 'left-to-right',
     },
     {
       id: 3,
-      width: 240,
-      height: 160,
-      x: '52%',
-      y: '58%',
+      width: 260,
+      height: 165,
+      y: '10%',      // Même couloir haut
       rotation: -8,
-      delay: 0.8,
+      delay: 3,
       depth: 3,
+      speed: 13,
+      direction: 'left-to-right',
     },
+  ];
+
+  // Couloir 2 : Milieu-haut - mouvement de droite à gauche uniquement
+  const middleTopLaneCards = [
     {
       id: 4,
-      width: 300,
-      height: 190,
-      x: '18%',
-      y: '68%',
+      width: 290,
+      height: 180,
+      y: '30%',      // Couloir milieu-haut
       rotation: 22,
-      delay: 1.2,
+      delay: 0.5,
       depth: 4,
+      speed: 15,
+      direction: 'right-to-left',
     },
     {
       id: 5,
-      width: 260,
-      height: 170,
-      x: '78%',
-      y: '72%',
+      width: 275,
+      height: 172,
+      y: '30%',      // Même couloir
       rotation: -15,
-      delay: 1.6,
+      delay: 2,
       depth: 5,
+      speed: 13,
+      direction: 'right-to-left',
     },
+    {
+      id: 6,
+      width: 285,
+      height: 178,
+      y: '30%',      // Même couloir
+      rotation: 20,
+      delay: 3.5,
+      depth: 6,
+      speed: 14,
+      direction: 'right-to-left',
+    },
+  ];
+
+  // Couloir 3 : Centre - mouvement de gauche à droite uniquement
+  const centerLaneCards = [
+    {
+      id: 7,
+      width: 270,
+      height: 170,
+      y: '50%',      // Couloir centre
+      rotation: -10,
+      delay: 1,
+      depth: 7,
+      speed: 12,
+      direction: 'left-to-right',
+    },
+    {
+      id: 8,
+      width: 295,
+      height: 185,
+      y: '50%',      // Même couloir
+      rotation: 25,
+      delay: 2.5,
+      depth: 8,
+      speed: 16,
+      direction: 'left-to-right',
+    },
+    {
+      id: 9,
+      width: 265,
+      height: 168,
+      y: '50%',      // Même couloir
+      rotation: -18,
+      delay: 4,
+      depth: 9,
+      speed: 13,
+      direction: 'left-to-right',
+    },
+  ];
+
+  // Couloir 4 : Milieu-bas - mouvement de droite à gauche uniquement
+  const middleBottomLaneCards = [
+    {
+      id: 10,
+      width: 280,
+      height: 175,
+      y: '70%',      // Couloir milieu-bas
+      rotation: 15,
+      delay: 0.8,
+      depth: 10,
+      speed: 14,
+      direction: 'right-to-left',
+    },
+    {
+      id: 11,
+      width: 290,
+      height: 182,
+      y: '70%',      // Même couloir
+      rotation: -22,
+      delay: 2.3,
+      depth: 11,
+      speed: 15,
+      direction: 'right-to-left',
+    },
+    {
+      id: 12,
+      width: 275,
+      height: 172,
+      y: '70%',      // Même couloir
+      rotation: 12,
+      delay: 3.8,
+      depth: 12,
+      speed: 13,
+      direction: 'right-to-left',
+    },
+  ];
+
+  // Couloir 5 : Bas - mouvement de gauche à droite uniquement
+  const bottomLaneCards = [
+    {
+      id: 13,
+      width: 285,
+      height: 178,
+      y: '90%',      // Couloir bas
+      rotation: -20,
+      delay: 1.2,
+      depth: 13,
+      speed: 12,
+      direction: 'left-to-right',
+    },
+    {
+      id: 14,
+      width: 270,
+      height: 170,
+      y: '90%',      // Même couloir
+      rotation: 18,
+      delay: 2.7,
+      depth: 14,
+      speed: 14,
+      direction: 'left-to-right',
+    },
+    {
+      id: 15,
+      width: 295,
+      height: 185,
+      y: '90%',      // Même couloir
+      rotation: -15,
+      delay: 4.2,
+      depth: 15,
+      speed: 13,
+      direction: 'left-to-right',
+    },
+  ];
+
+  // Combiner toutes les cartes par couloirs
+  const cards = [
+    ...topLaneCards,
+    ...middleTopLaneCards,
+    ...centerLaneCards,
+    ...middleBottomLaneCards,
+    ...bottomLaneCards,
   ];
 
   return (
@@ -65,63 +206,124 @@ const FloatingCards = () => {
         height: '100%',
         pointerEvents: 'none',
         overflow: 'hidden',
-        zIndex: 0,
+        zIndex: 1,
       }}
     >
       {cards.map((card) => {
-        const baseOpacity = 0.08 - (card.depth - 1) * 0.015;
-        const borderOpacity = 0.25 - (card.depth - 1) * 0.03;
+        // Opacité très augmentée pour meilleure visibilité
+        const baseOpacity = 0.7 - (card.depth - 1) * 0.03;
+        const borderOpacity = 0.9 - (card.depth - 1) * 0.03;
+        const glowOpacity = 0.65 - (card.depth - 1) * 0.03;
+        
+        const finalY = parseFloat(card.y);
+        const travelDistance = 200;
+        
+        // Calculer les positions selon la direction
+        let startX, endX;
+        if (card.direction === 'right-to-left') {
+          startX = 100 + travelDistance;
+          endX = -travelDistance;
+        } else {
+          startX = -travelDistance;
+          endX = 100 + travelDistance;
+        }
         
         return (
           <motion.div
             key={card.id}
             initial={{
               opacity: 0,
-              scale: 0.85,
-              x: `${parseFloat(card.x)}%`,
-              y: `${parseFloat(card.y) + 120}%`,
-              rotate: card.rotation,
-              filter: 'blur(10px)',
+              scale: 0.8,
+              x: `${startX}%`,
+              y: `${finalY}%`,
+              rotate: card.rotation - 8,
             }}
             animate={{
-              opacity: [baseOpacity * 0.8, baseOpacity * 1.3, baseOpacity * 0.8],
-              scale: [0.98, 1.02, 0.98],
-              x: `${parseFloat(card.x)}%`,
-              y: `${parseFloat(card.y)}%`,
-              rotate: card.rotation + [0, 2, -2, 0],
+              opacity: [
+                0,
+                baseOpacity * 0.8,
+                baseOpacity * 1.2,
+                baseOpacity * 1.2,
+                baseOpacity * 0.8,
+                0,
+              ],
+              scale: [
+                0.8,
+                0.95,
+                1.05,
+                1.05,
+                0.95,
+                0.8,
+              ],
+              x: card.direction === 'right-to-left' 
+                ? [
+                    `${startX}%`,
+                    `${95}%`,
+                    `${50}%`,
+                    `${5}%`,
+                    `${-travelDistance * 0.5}%`,
+                    `${endX}%`,
+                  ]
+                : [
+                    `${startX}%`,
+                    `${5}%`,
+                    `${50}%`,
+                    `${95}%`,
+                    `${100 + travelDistance * 0.5}%`,
+                    `${endX}%`,
+                  ],
+              y: [
+                `${finalY}%`,
+                `${finalY}%`,  // Reste dans le même couloir
+                `${finalY}%`,
+                `${finalY}%`,
+                `${finalY}%`,
+                `${finalY}%`,
+              ],
+              rotate: [
+                card.rotation - 8,
+                card.rotation - 1,
+                card.rotation + 1,
+                card.rotation,
+                card.rotation - 1,
+                card.rotation - 8,
+              ],
             }}
             transition={{
               opacity: {
-                duration: 5 + card.id * 0.8,
+                times: [0, 0.1, 0.25, 0.75, 0.9, 1],
+                duration: card.speed,
+                ease: [0.4, 0, 0.2, 1],
                 repeat: Infinity,
-                ease: [0.4, 0, 0.6, 1],
+                repeatDelay: card.delay,
               },
               scale: {
-                duration: 6 + card.id * 0.5,
+                times: [0, 0.1, 0.25, 0.75, 0.9, 1],
+                duration: card.speed,
+                ease: [0.4, 0, 0.2, 1],
                 repeat: Infinity,
-                ease: [0.4, 0, 0.6, 1],
+                repeatDelay: card.delay,
               },
               x: {
-                duration: 25 + card.id * 3,
+                times: [0, 0.1, 0.25, 0.75, 0.9, 1],
+                duration: card.speed,
+                ease: [0.25, 0.1, 0.25, 1],
                 repeat: Infinity,
-                repeatType: 'reverse',
-                ease: [0.4, 0, 0.6, 1],
+                repeatDelay: card.delay,
               },
               y: {
-                duration: 20 + card.id * 2,
-                repeat: Infinity,
-                repeatType: 'reverse',
+                times: [0, 0.1, 0.25, 0.75, 0.9, 1],
+                duration: card.speed * 0.8,
                 ease: [0.4, 0, 0.6, 1],
+                repeat: Infinity,
+                repeatDelay: card.delay,
               },
               rotate: {
-                duration: 12 + card.id * 1.5,
-                repeat: Infinity,
-                repeatType: 'reverse',
+                times: [0, 0.1, 0.25, 0.75, 0.9, 1],
+                duration: card.speed * 0.6,
                 ease: [0.4, 0, 0.6, 1],
-              },
-              filter: {
-                duration: 0.8,
-                ease: [0.4, 0, 0.2, 1],
+                repeat: Infinity,
+                repeatDelay: card.delay,
               },
               delay: card.delay,
             }}
@@ -131,16 +333,20 @@ const FloatingCards = () => {
               height: `${card.height}px`,
               background: `linear-gradient(135deg, 
                 rgba(236, 72, 153, ${baseOpacity}) 0%, 
-                rgba(219, 39, 119, ${baseOpacity * 0.8}) 50%,
+                rgba(219, 39, 119, ${baseOpacity * 0.95}) 25%,
+                rgba(236, 72, 153, ${baseOpacity * 0.75}) 50%,
+                rgba(219, 39, 119, ${baseOpacity * 0.9}) 75%,
                 rgba(236, 72, 153, ${baseOpacity}) 100%)`,
-              border: `1px solid rgba(236, 72, 153, ${borderOpacity})`,
-              borderRadius: '32px',
-              backdropFilter: 'blur(40px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+              border: `2px solid rgba(236, 72, 153, ${borderOpacity})`,
+              borderRadius: '28px',
+              backdropFilter: 'blur(25px) saturate(160%)',
+              WebkitBackdropFilter: 'blur(25px) saturate(160%)',
               boxShadow: `
-                0 8px 32px rgba(236, 72, 153, ${baseOpacity * 2}),
-                inset 0 1px 0 rgba(255, 255, 255, 0.1),
-                inset 0 -1px 0 rgba(0, 0, 0, 0.1)
+                0 25px 70px rgba(236, 72, 153, ${glowOpacity}),
+                0 12px 35px rgba(236, 72, 153, ${glowOpacity * 0.8}),
+                0 0 0 1px rgba(236, 72, 153, ${borderOpacity * 0.5}),
+                inset 0 3px 10px rgba(255, 255, 255, 0.35),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.5)
               `,
               transform: 'translate(-50%, -50%)',
               transformStyle: 'preserve-3d',
@@ -149,25 +355,80 @@ const FloatingCards = () => {
             {/* Effet de brillance interne */}
             <motion.div
               animate={{
-                opacity: [0.1, 0.3, 0.1],
+                opacity: [0.3, 0.7, 0.3],
+                scale: [0.7, 1.4, 0.7],
+                x: [0, 20, 0],
+                y: [0, 15, 0],
               }}
               transition={{
-                duration: 4 + card.id,
+                duration: 2 + card.id * 0.2,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
               style={{
                 position: 'absolute',
-                top: '20%',
-                left: '20%',
-                width: '60%',
-                height: '60%',
-                background: 'radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%)',
+                top: '10%',
+                left: '10%',
+                width: '80%',
+                height: '80%',
+                background: 'radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(236, 72, 153, 0.3) 40%, transparent 75%)',
                 borderRadius: '50%',
-                filter: 'blur(20px)',
+                filter: 'blur(45px)',
                 pointerEvents: 'none',
               }}
             />
+            
+            {/* Reflet subtil */}
+            <motion.div
+              animate={{
+                opacity: [0.2, 0.4, 0.2],
+              }}
+              transition={{
+                duration: 2.5 + card.id * 0.3,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              style={{
+                position: 'absolute',
+                top: '10%',
+                left: '10%',
+                right: '10%',
+                height: '40%',
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, transparent 100%)',
+                borderRadius: '28px 28px 0 0',
+                pointerEvents: 'none',
+              }}
+            />
+            
+            {/* Particules flottantes */}
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={i}
+                animate={{
+                  y: [0, -30, 0],
+                  x: [0, 20, 0],
+                  opacity: [0.3, 0.6, 0.3],
+                  scale: [1, 1.3, 1],
+                }}
+                transition={{
+                  duration: 2.5 + i * 0.4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                  delay: i * 0.5,
+                }}
+                style={{
+                  position: 'absolute',
+                  width: `${15 + i * 5}px`,
+                  height: `${15 + i * 5}px`,
+                  borderRadius: '50%',
+                  background: `rgba(236, 72, 153, ${0.4 + i * 0.1})`,
+                  top: `${20 + i * 25}%`,
+                  left: `${20 + i * 20}%`,
+                  filter: 'blur(8px)',
+                  pointerEvents: 'none',
+                }}
+              />
+            ))}
           </motion.div>
         );
       })}

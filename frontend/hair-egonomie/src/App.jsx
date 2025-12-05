@@ -1,164 +1,45 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import './App.css';
 
 // Import des composants
 import SplashScreen from './components/SplashScreen';
-import ModeSelector from './components/ModeSelector';
+// import ModeSelector from './components/ModeSelector'; // Navigation standard
+import IntelligentNavigation from './components/IntelligentNavigation'; // Navigation intelligente et adaptative
+import ConfigQuestions from './components/ConfigQuestions'; // Questions de configuration
+import PersonalizedJourney from './components/PersonalizedJourney'; // Parcours personnalisé
 import QuestionCard from './components/QuestionCard';
-import ContentCard from './components/ContentCard';
-import CompletionScreen from './components/CompletionScreen';
-import NextButton from './components/NextButton';
-import MicroFeedback from './components/MicroFeedback';
-
-// Import du gestionnaire de parcours
-import { getJourney, getContent, adaptJourney } from './utils/journeyManager';
+import ResultsPage from './components/ResultsPage';
+import { generateJourney } from './utils/journeyGenerator';
 
 function App() {
   const [step, setStep] = useState("splash");
   const [mode, setMode] = useState(null);
-  const [showNextButton, setShowNextButton] = useState(false);
-  
-  // Gestion du parcours adaptatif
-  const [journey, setJourney] = useState(null);
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  const [userAnswers, setUserAnswers] = useState([]);
-  const [journeyStats, setJourneyStats] = useState({
-    stepsCompleted: 0,
-    startTime: null,
-    totalTime: 0,
-  });
-  
-  // Micro-feedbacks
-  const [microFeedback, setMicroFeedback] = useState(null);
-
-  // Initialiser les stats au début du parcours
-  useEffect(() => {
-    if (journey && journeyStats.startTime === null) {
-      setJourneyStats(prev => ({
-        ...prev,
-        startTime: Date.now(),
-      }));
-    }
-  }, [journey, journeyStats.startTime]);
+  const [questionStats, setQuestionStats] = useState({ total: 0, completed: 0 });
+  const [personalizedJourney, setPersonalizedJourney] = useState(null);
 
   const handleModeSelect = (selectedMode) => {
     setMode(selectedMode);
-    // Initialiser le parcours selon le mode
-    const initialJourney = getJourney(selectedMode);
-    setJourney(initialJourney);
-    
-    // Révélation progressive du bouton après un délai
+    // Transition automatique après un court délai (sans bouton)
     setTimeout(() => {
-      setShowNextButton(true);
-    }, 800);
+      setStep("config"); // Passer directement aux questions de configuration
+    }, 1000);
   };
 
   const handleSplashComplete = () => {
     setStep("mode");
   };
 
-  const handleStartJourney = () => {
-    setShowNextButton(false);
-    setCurrentStepIndex(0);
-    setStep("journey");
+  const handleConfigComplete = (answers) => {
+    // Générer le parcours personnalisé
+    const journey = generateJourney(answers);
+    setPersonalizedJourney(journey);
+    setStep("journey"); // Afficher le parcours généré
   };
 
-  const handleStepComplete = (stepData = {}) => {
-    // Enregistrer la réponse si c'est une question
-    if (stepData.type === 'question') {
-      const responseTime = stepData.responseTime || 0;
-      setUserAnswers(prev => [...prev, {
-        stepId: stepData.id,
-        responseTime,
-        timestamp: Date.now(),
-      }]);
-
-      // Micro-feedback selon le temps de réponse
-      if (responseTime < 2000) {
-        setMicroFeedback({
-          type: 'encouragement',
-          message: 'Réflexion rapide ! Vous progressez bien.',
-        });
-      } else if (responseTime > 10000) {
-        setMicroFeedback({
-          type: 'hint',
-          message: 'Prenez votre temps, c\'est important de bien comprendre.',
-        });
-      }
-    }
-
-    // Mettre à jour les stats
-    setJourneyStats(prev => ({
-      ...prev,
-      stepsCompleted: prev.stepsCompleted + 1,
-    }));
-
-    // Micro-feedback de progression
-    if (journey && currentStepIndex < journey.steps.length - 1) {
-      const progress = ((currentStepIndex + 1) / journey.steps.length) * 100;
-      if (progress >= 50 && progress < 60) {
-        setMicroFeedback({
-          type: 'encouragement',
-          message: 'Vous êtes à mi-parcours ! Continuez comme ça.',
-        });
-      }
-    }
-
-    // Passer à l'étape suivante
-    if (journey && currentStepIndex < journey.steps.length - 1) {
-      setCurrentStepIndex(prev => prev + 1);
-    } else {
-      // Parcours terminé
-      const totalTime = journeyStats.startTime 
-        ? Math.floor((Date.now() - journeyStats.startTime) / 1000)
-        : 0;
-      
-      setJourneyStats(prev => ({
-        ...prev,
-        totalTime,
-      }));
-      
-      setMicroFeedback({
-        type: 'success',
-        message: 'Félicitations ! Parcours complété avec succès.',
-      });
-      
-      setTimeout(() => {
-        setStep("completion");
-      }, 1500);
-    }
+  const handleJourneyStart = () => {
+    setStep("questions"); // Commencer avec les questions du parcours
   };
-
-  const handleRestart = () => {
-    setStep("splash");
-    setMode(null);
-    setJourney(null);
-    setCurrentStepIndex(0);
-    setUserAnswers([]);
-    setJourneyStats({
-      stepsCompleted: 0,
-      startTime: null,
-      totalTime: 0,
-    });
-    setShowNextButton(false);
-  };
-
-  const handleContinue = (action) => {
-    // Logique pour continuer avec une autre action
-    // Pour l'instant, on redémarre
-    handleRestart();
-  };
-
-  // Obtenir l'étape actuelle
-  const getCurrentStep = () => {
-    if (!journey || currentStepIndex >= journey.steps.length) {
-      return null;
-    }
-    return journey.steps[currentStepIndex];
-  };
-
-  const currentStep = getCurrentStep();
 
   return (
     <div className="app-container">
@@ -168,75 +49,53 @@ function App() {
         )}
         
         {step === "mode" && (
-          <>
-            <ModeSelector 
-              key="mode" 
-              onSelect={handleModeSelect} 
-            />
-            {showNextButton && (
-              <NextButton
-                label={`Commencer avec ${mode}`}
-                onClick={handleStartJourney}
-                isVisible={showNextButton}
-                delay={0.2}
-              />
-            )}
-          </>
+          <IntelligentNavigation 
+            key="mode" 
+            onSelect={handleModeSelect} 
+          />
         )}
 
-        {step === "journey" && currentStep && (
-          <>
-            {currentStep.type === "question" && (
-              <QuestionCard
-                key={`question-${currentStepIndex}`}
-                mode={mode}
-                question={currentStep.question}
-                questionId={currentStep.id}
-                onNext={(responseTime) => handleStepComplete({
-                  type: 'question',
-                  id: currentStep.id,
-                  responseTime,
-                })}
-              />
-            )}
-            
-            {currentStep.type === "content" && (
-              <ContentCard
-                key={`content-${currentStepIndex}`}
-                content={{
-                  id: currentStep.id,
-                  title: currentStep.title,
-                  contentType: currentStep.contentType,
-                  ...getContent(currentStep.id),
-                }}
-                onNext={() => handleStepComplete({
-                  type: 'content',
-                  id: currentStep.id,
-                })}
-              />
-            )}
-          </>
+        {step === "config" && (
+          <ConfigQuestions
+            key="config"
+            onComplete={handleConfigComplete}
+          />
         )}
 
-        {step === "completion" && (
-          <CompletionScreen
-            key="completion"
+        {step === "journey" && personalizedJourney && (
+          <PersonalizedJourney
+            key="journey"
+            journey={personalizedJourney}
+            onStart={handleJourneyStart}
+          />
+        )}
+
+        {step === "questions" && (
+          <QuestionCard 
+            key="questions" 
             mode={mode}
-            journeyStats={journeyStats}
-            onRestart={handleRestart}
-            onContinue={handleContinue}
+            journey={personalizedJourney}
+            onComplete={(stats) => {
+              setQuestionStats(stats);
+              setStep("results");
+            }}
+          />
+        )}
+
+        {step === "results" && (
+          <ResultsPage
+            key="results"
+            mode={mode}
+            totalQuestions={questionStats.total}
+            completedQuestions={questionStats.completed}
+            onRestart={() => {
+              setStep("splash");
+              setMode(null);
+              setQuestionStats({ total: 0, completed: 0 });
+            }}
           />
         )}
       </AnimatePresence>
-
-      {/* Micro-feedback global */}
-      {microFeedback && (
-        <MicroFeedback
-          type={microFeedback.type}
-          message={microFeedback.message}
-          onDismiss={() => setMicroFeedback(null)}
-        />
-      )}
     </div>
   );
 }
