@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import TradingBackground from './TradingBackground';
+import { IconCheck } from './icons';
 
 // Questions de démonstration selon le mode sélectionné avec réponses correctes
 const DEMO_QUESTIONS = {
@@ -61,9 +62,9 @@ const DEMO_QUESTIONS = {
 };
 
 // Délai d'avance automatique (ms) - défini avant utilisation
-const AUTO_ADVANCE_DELAY = 5000; // 5 secondes par question
+const AUTO_ADVANCE_DELAY = 10000; // 10 secondes par question
 
-const QuestionCard = ({ mode, onComplete }) => {
+const QuestionCard = ({ mode, onComplete, questionSetId, questionIndex }) => {
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
@@ -73,6 +74,9 @@ const QuestionCard = ({ mode, onComplete }) => {
   const [timeRemaining, setTimeRemaining] = useState(AUTO_ADVANCE_DELAY);
   const autoAdvanceTimerRef = useRef(null);
   const countdownTimerRef = useRef(null);
+  
+  // Utiliser un identifiant unique pour éviter les répétitions
+  const uniqueId = questionSetId || `question_${questionIndex || 0}`;
 
   useEffect(() => {
     const loadQuestions = async () => {
@@ -129,13 +133,25 @@ const QuestionCard = ({ mode, onComplete }) => {
       
       // Utiliser le mode normalisé ou "Découvrir" par défaut
       const demoQuestions = DEMO_QUESTIONS[normalizedMode] || DEMO_QUESTIONS["Découvrir"];
-      console.log("Utilisation des questions de démonstration pour le mode:", normalizedMode);
-      setQuestions(demoQuestions);
+      
+      // Éviter les répétitions : utiliser l'index de la question pour sélectionner une question unique
+      // Si questionIndex est fourni, utiliser une question différente
+      let selectedQuestions = [...demoQuestions];
+      if (questionIndex !== undefined && questionIndex < demoQuestions.length) {
+        // Utiliser une question spécifique basée sur l'index pour éviter les répétitions
+        const startIndex = questionIndex % demoQuestions.length;
+        selectedQuestions = demoQuestions.slice(startIndex).concat(demoQuestions.slice(0, startIndex));
+        // Prendre seulement 2-3 questions pour chaque quiz
+        selectedQuestions = selectedQuestions.slice(0, Math.min(3, demoQuestions.length));
+      }
+      
+      console.log("Utilisation des questions de démonstration pour le mode:", normalizedMode, "questionSetId:", uniqueId);
+      setQuestions(selectedQuestions);
       setIsLoading(false);
     };
 
     loadQuestions();
-  }, [mode]);
+  }, [mode, uniqueId, questionIndex]);
 
   const handleNext = useCallback(() => {
     // Arrêter tous les timers avant de passer à la question suivante
@@ -153,13 +169,14 @@ const QuestionCard = ({ mode, onComplete }) => {
       if (prevIndex < questions.length - 1) {
         return prevIndex + 1;
       } else {
-        // Dernière question terminée
+        // Dernière question terminée - calculer les statistiques réelles
         if (onComplete) {
-          // Compter les bonnes réponses
-          const correctCount = Object.values(answerFeedback).filter(fb => fb?.isCorrect).length;
+          // Compter uniquement les réponses réellement soumises et correctes
+          const correctCount = Object.values(answerFeedback).filter(fb => fb?.isCorrect === true).length;
+          
           onComplete({
             total: questions.length,
-            completed: correctCount,
+            completed: correctCount, // Seulement les bonnes réponses
           });
         }
         return prevIndex;
@@ -216,12 +233,16 @@ const QuestionCard = ({ mode, onComplete }) => {
       }, 100);
 
       // Attendre le délai avant de compléter (pour que la dernière question soit visible)
+      // MAIS seulement si l'utilisateur n'a pas répondu
       autoAdvanceTimerRef.current = setTimeout(() => {
         // Vérifier à nouveau si l'utilisateur a répondu avant de compléter
+        // Si pas de réponse, compter comme 0 bonnes réponses
         if (!userAnswers[currentQuestionIndex] && onComplete) {
+          // Compter uniquement les réponses réellement soumises et correctes
+          const correctCount = Object.values(answerFeedback).filter(fb => fb?.isCorrect === true).length;
           onComplete({
             total: questions.length,
-            completed: questions.length,
+            completed: correctCount, // Seulement les bonnes réponses soumises
           });
         }
       }, AUTO_ADVANCE_DELAY);
@@ -254,8 +275,10 @@ const QuestionCard = ({ mode, onComplete }) => {
     }, 100);
 
     // Créer un nouveau timer pour la question suivante
+    // MAIS seulement si l'utilisateur n'a pas répondu
     autoAdvanceTimerRef.current = setTimeout(() => {
       // Vérifier à nouveau si l'utilisateur a répondu avant d'avancer
+      // Si pas de réponse, passer à la question suivante (mais ne pas compter comme correcte)
       if (!userAnswers[currentQuestionIndex]) {
         handleNext();
       }
@@ -272,7 +295,7 @@ const QuestionCard = ({ mode, onComplete }) => {
         countdownTimerRef.current = null;
       }
     };
-  }, [currentQuestionIndex, questions.length, isLoading, handleNext, onComplete, userAnswers]);
+  }, [currentQuestionIndex, questions.length, isLoading, handleNext, onComplete, userAnswers, answerFeedback]);
 
   if (isLoading) {
     return (
@@ -698,7 +721,7 @@ const QuestionCard = ({ mode, onComplete }) => {
               </motion.div>
             )}
 
-            {/* Feedback de la réponse */}
+            {/* Feedback de la réponse - toujours afficher la bonne réponse */}
             {feedback && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -709,9 +732,9 @@ const QuestionCard = ({ mode, onComplete }) => {
                   padding: 'clamp(1rem, 3vw, 1.5rem)',
                   borderRadius: 'clamp(0.75rem, 2vw, 1rem)',
                   background: feedback.isCorrect
-                    ? 'rgba(34, 197, 94, 0.15)'
-                    : 'rgba(239, 68, 68, 0.15)',
-                  border: `2px solid ${feedback.isCorrect ? 'rgba(34, 197, 94, 0.4)' : 'rgba(239, 68, 68, 0.4)'}`,
+                    ? 'rgba(34, 197, 94, 0.1)'
+                    : 'rgba(251, 191, 36, 0.1)', // Ambre doux au lieu de rouge
+                  border: `2px solid ${feedback.isCorrect ? 'rgba(34, 197, 94, 0.3)' : 'rgba(251, 191, 36, 0.3)'}`,
                 }}
               >
                 <motion.div
@@ -723,51 +746,111 @@ const QuestionCard = ({ mode, onComplete }) => {
                     alignItems: 'center',
                     gap: '0.75rem',
                     marginBottom: '1rem',
-                    fontSize: 'clamp(1.125rem, 3vw, 1.25rem)',
-                    fontWeight: 600,
-                    color: feedback.isCorrect ? '#22c55e' : '#ef4444',
+                    fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
+                    fontWeight: 500,
+                    color: feedback.isCorrect 
+                      ? 'rgba(34, 197, 94, 0.9)' 
+                      : 'rgba(251, 191, 36, 0.9)', // Ambre au lieu de rouge
                   }}
                 >
-                  <span>{feedback.isCorrect ? '✓' : '✗'}</span>
-                  <span>{feedback.isCorrect ? 'Bonne réponse !' : 'Réponse incorrecte'}</span>
+                  {feedback.isCorrect ? (
+                    <>
+                      <IconCheck size={20} color="rgba(34, 197, 94, 0.9)" />
+                      <span>Votre réponse est correcte</span>
+                    </>
+                  ) : (
+                    <>
+                      <motion.div
+                        animate={{ rotate: [0, -10, 10, -10, 0] }}
+                        transition={{ duration: 0.5 }}
+                        style={{ display: 'flex', alignItems: 'center' }}
+                      >
+                        <span style={{ fontSize: '1.25rem' }}>↻</span>
+                      </motion.div>
+                      <span>Voici la réponse attendue</span>
+                    </>
+                  )}
                 </motion.div>
                 
-                {!feedback.isCorrect && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    transition={{ delay: 0.4 }}
+                {/* Toujours afficher la bonne réponse */}
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  transition={{ delay: 0.4 }}
+                  style={{
+                    marginTop: '1rem',
+                    paddingTop: '1rem',
+                    borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                  }}
+                >
+                  <p
                     style={{
-                      marginTop: '1rem',
-                      paddingTop: '1rem',
-                      borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                      fontSize: 'clamp(0.875rem, 2vw, 1rem)',
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      marginBottom: '0.75rem',
+                      fontWeight: 500,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
                     }}
                   >
-                    <p
-                      style={{
-                        fontSize: 'clamp(0.875rem, 2vw, 1rem)',
-                        color: 'rgba(255, 255, 255, 0.8)',
-                        marginBottom: '0.5rem',
-                        fontWeight: 500,
-                      }}
-                    >
-                      Réponse correcte :
-                    </p>
-                    <p
-                      style={{
-                        fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
-                        color: 'rgba(255, 255, 255, 0.95)',
-                        lineHeight: 1.6,
-                        padding: '1rem',
-                        background: 'rgba(0, 0, 0, 0.2)',
-                        borderRadius: '0.5rem',
-                        border: '1px solid rgba(236, 72, 153, 0.2)',
-                      }}
-                    >
-                      {feedback.correctAnswer}
-                    </p>
+                    {feedback.isCorrect ? 'Réponse correcte' : 'Réponse attendue'} :
+                  </p>
+                  <motion.div
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                    style={{
+                      fontSize: 'clamp(1rem, 2.5vw, 1.125rem)',
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      lineHeight: 1.7,
+                      padding: '1.25rem',
+                      background: 'rgba(236, 72, 153, 0.08)',
+                      borderRadius: '0.75rem',
+                      border: '1px solid rgba(236, 72, 153, 0.2)',
+                      boxShadow: 'inset 0 2px 8px rgba(236, 72, 153, 0.1)',
+                    }}
+                  >
+                    {feedback.correctAnswer}
                   </motion.div>
-                )}
+                  
+                  {/* Afficher la réponse de l'utilisateur si elle est différente */}
+                  {!feedback.isCorrect && feedback.userAnswer && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.6 }}
+                      style={{
+                        marginTop: '1rem',
+                        paddingTop: '1rem',
+                        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontSize: 'clamp(0.875rem, 2vw, 1rem)',
+                          color: 'rgba(255, 255, 255, 0.6)',
+                          marginBottom: '0.5rem',
+                          fontStyle: 'italic',
+                        }}
+                      >
+                        Votre réponse :
+                      </p>
+                      <p
+                        style={{
+                          fontSize: 'clamp(0.95rem, 2.2vw, 1.05rem)',
+                          color: 'rgba(255, 255, 255, 0.8)',
+                          lineHeight: 1.6,
+                          padding: '1rem',
+                          background: 'rgba(0, 0, 0, 0.15)',
+                          borderRadius: '0.5rem',
+                          border: '1px solid rgba(255, 255, 255, 0.1)',
+                        }}
+                      >
+                        {feedback.userAnswer}
+                      </p>
+                    </motion.div>
+                  )}
+                </motion.div>
               </motion.div>
             )}
 

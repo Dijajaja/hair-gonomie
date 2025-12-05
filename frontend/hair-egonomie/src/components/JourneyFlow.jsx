@@ -71,10 +71,19 @@ const JourneyFlow = ({ journey, mode, onComplete }) => {
   };
 
   const handleQuestionComplete = (stats) => {
-    setQuestionStats(prev => ({
-      total: prev.total + stats.total,
-      completed: prev.completed + stats.completed,
-    }));
+    // S'assurer que stats existe et contient des valeurs valides
+    const validStats = {
+      total: stats?.total || 0,
+      completed: stats?.completed || 0
+    };
+
+    // Ne mettre à jour que si des réponses ont été soumises
+    if (validStats.total > 0) {
+      setQuestionStats(prev => ({
+        total: prev.total + validStats.total,
+        completed: prev.completed + validStats.completed, // Seulement les bonnes réponses
+      }));
+    }
 
     // Passer à l'étape suivante
     if (currentStepIndex < steps.length - 1) {
@@ -83,12 +92,13 @@ const JourneyFlow = ({ journey, mode, onComplete }) => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }, 500);
     } else {
-      // Dernière question terminée
+      // Dernière question terminée - utiliser les stats accumulées
       if (onComplete) {
-        onComplete({
-          total: questionStats.total + stats.total,
-          completed: questionStats.completed + stats.completed,
-        });
+        const finalStats = {
+          total: questionStats.total + validStats.total,
+          completed: questionStats.completed + validStats.completed,
+        };
+        onComplete(finalStats);
       }
     }
   };
@@ -187,8 +197,10 @@ const JourneyFlow = ({ journey, mode, onComplete }) => {
 
       {currentStep.type === 'question' && (
         <QuestionCard
-          key={currentStep.id}
+          key={`${currentStep.id}_${currentStepIndex}`}
           mode={mode}
+          questionSetId={currentStep.id}
+          questionIndex={currentStepIndex}
           onComplete={handleQuestionComplete}
         />
       )}

@@ -2,9 +2,10 @@ import { motion } from 'framer-motion';
 import TradingBackground from './TradingBackground';
 
 const ResultsPage = ({ mode, onRestart, totalQuestions, completedQuestions }) => {
+  // Calculer le pourcentage correctement - seulement si des questions ont été répondues
   const completionPercentage = totalQuestions > 0 
     ? Math.round((completedQuestions / totalQuestions) * 100) 
-    : 100;
+    : 0; // 0% si aucune question n'a été répondue
 
   return (
     <motion.div
