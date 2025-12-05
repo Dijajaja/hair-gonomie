@@ -34,10 +34,14 @@ git add .
 git commit -m "Ready for deployment"
 
 # Créer un dépôt sur GitHub/GitLab, puis :
-git remote add origin https://github.com/votre-username/hair-gonomie.git
+git remote add origin https://github.com/Dijajaja/hair-gonomie.git
 git branch -M main
 git push -u origin main
 ```
+
+**⚠️ Important** : 
+- Remplacez `votre-username` par votre nom d'utilisateur GitHub/GitLab
+- Créez d'abord le dépôt vide sur GitHub/GitLab avant de faire `git push`
 
 ---
 
@@ -61,7 +65,7 @@ git push -u origin main
 **Option A : Via Git**
 ```bash
 cd ~
-git clone https://github.com/votre-username/hair-gonomie.git
+git clone https://github.com/Dijajaja/hair-gonomie.git
 cd hair-gonomie
 ```
 
@@ -273,14 +277,14 @@ cd ../../
 git init
 git add .
 git commit -m "Ready for deployment"
-git remote add origin https://github.com/votre-username/hair-gonomie.git
+git remote add origin https://github.com/Dijajaja/hair-gonomie.git
 git push -u origin main
 ```
 
 ### Sur PythonAnywhere (une seule fois)
 ```bash
 cd ~
-git clone https://github.com/votre-username/hair-gonomie.git
+git clone https://github.com/Dijajaja/hair-gonomie.git
 cd hair-gonomie/backend
 pip3.10 install --user -r requirements.txt
 python3.10 manage.py migrate

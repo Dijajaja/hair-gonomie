@@ -72,7 +72,7 @@ git add .
 git commit -m "Ready for deployment"
 
 # Créer un dépôt sur GitHub/GitLab et ajouter le remote
-git remote add origin https://github.com/votre-username/hair-gonomie.git
+git remote add origin https://github.com/Dijajaja/hair-gonomie.git
 git push -u origin main
 ```
 
@@ -86,7 +86,7 @@ git push -u origin main
 2. Exécutez :
 ```bash
 cd ~
-git clone https://github.com/votre-username/hair-gonomie.git
+git clone https://github.com/Dijajaja/hair-gonomie.git
 cd hair-gonomie
 ```
 

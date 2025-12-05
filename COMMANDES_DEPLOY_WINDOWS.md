@@ -58,7 +58,7 @@ git add .
 git commit -m "Ready for deployment"
 
 # Créer un dépôt sur GitHub/GitLab, puis :
-git remote add origin https://github.com/votre-username/hair-gonomie.git
+git remote add origin https://github.com/Dijajaja/hair-gonomie.git
 git branch -M main
 git push -u origin main
 ```
@@ -73,7 +73,7 @@ git push -u origin main
 
 ```bash
 cd ~
-git clone https://github.com/votre-username/hair-gonomie.git
+git clone https://github.com/Dijajaja/hair-gonomie.git
 cd hair-gonomie/backend
 ```
 
