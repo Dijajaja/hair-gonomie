@@ -357,10 +357,11 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
             }}
             style={{
               flex: '0 0 auto',
-              width: '380px',
-              position: 'sticky',
-              top: '2rem',
-              alignSelf: 'flex-start',
+              width: '280px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              paddingTop: '4rem', // Aligné avec le début des cartes (après le titre)
             }}
           >
             <motion.div
@@ -370,8 +371,8 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
               style={{
                 background: 'rgba(236, 72, 153, 0.08)',
                 border: '2px solid rgba(236, 72, 153, 0.25)',
-                borderRadius: '1.5rem',
-                padding: '1.5rem',
+                borderRadius: '1.25rem',
+                padding: '1rem',
                 backdropFilter: 'blur(20px) saturate(180%)',
                 WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                 boxShadow: '0 20px 60px -12px rgba(236, 72, 153, 0.3)',
@@ -384,19 +385,19 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.75rem',
-                  marginBottom: '1.25rem',
+                  gap: '0.5rem',
+                  marginBottom: '0.875rem',
                 }}
               >
                 <motion.div
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                 >
-                  <IconSparkles size={24} color="#ec4899" />
+                  <IconSparkles size={18} color="#ec4899" />
                 </motion.div>
                 <span
                   style={{
-                    fontSize: '0.875rem',
+                    fontSize: '0.75rem',
                     fontWeight: 700,
                     color: '#ec4899',
                     textTransform: 'uppercase',
@@ -407,7 +408,7 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                 </span>
               </motion.div>
 
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {recommendations.map((rec, index) => {
                   const item = availableItems.find((i) => i.id === rec.id);
                   return (
@@ -421,28 +422,28 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                         ease: [0.4, 0, 0.2, 1],
                       }}
                       whileHover={{
-                        scale: 1.03,
-                        x: 5,
+                        scale: 1.02,
+                        x: 3,
                         transition: { duration: 0.2 },
                       }}
                       whileTap={{ scale: 0.97 }}
                       onClick={() => handleRecommendationClick({ ...item, recommendationReason: rec.reason })}
                       style={{
                         width: '100%',
-                        padding: '1rem 1.25rem',
+                        padding: '0.625rem 0.875rem',
                         background: 'rgba(236, 72, 153, 0.15)',
                         border: '1.5px solid rgba(236, 72, 153, 0.4)',
-                        borderRadius: '1rem',
+                        borderRadius: '0.75rem',
                         color: 'white',
                         textAlign: 'left',
                         cursor: 'pointer',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '0.5rem',
+                        gap: '0.375rem',
                         position: 'relative',
                         overflow: 'hidden',
                         transition: 'all 0.3s ease',
-                        boxShadow: '0 8px 24px -4px rgba(236, 72, 153, 0.2)',
+                        boxShadow: '0 6px 20px -4px rgba(236, 72, 153, 0.2)',
                       }}
                     >
                       {/* Effet de brillance au survol */}
@@ -460,32 +461,32 @@ const IntelligentNavigation = ({ onSelect, onRecommendationClick }) => {
                       />
 
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           {item?.IconComponent && (
                             <motion.div
                               whileHover={{ rotate: 15, scale: 1.1 }}
                               transition={{ duration: 0.2 }}
                             >
-                              <item.IconComponent size={20} color="#ec4899" />
+                              <item.IconComponent size={16} color="#ec4899" />
                             </motion.div>
                           )}
-                          <div style={{ fontWeight: 600, color: '#ec4899', fontSize: '0.95rem' }}>
+                          <div style={{ fontWeight: 600, color: '#ec4899', fontSize: '0.8rem' }}>
                             {item?.label}
                           </div>
                         </div>
                         <motion.div
-                          animate={{ x: [0, 4, 0] }}
+                          animate={{ x: [0, 3, 0] }}
                           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                         >
-                          <IconArrowRight size={18} color="#ec4899" />
+                          <IconArrowRight size={14} color="#ec4899" />
                         </motion.div>
                       </div>
                       <div
                         style={{
-                          fontSize: '0.8rem',
+                          fontSize: '0.7rem',
                           color: 'rgba(255, 255, 255, 0.75)',
-                          lineHeight: 1.5,
-                          paddingLeft: '2.75rem',
+                          lineHeight: 1.4,
+                          paddingLeft: '2rem',
                         }}
                       >
                         {rec.reason}
