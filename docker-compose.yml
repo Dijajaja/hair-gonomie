@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  hair-gonomie:
+    build: .
+    container_name: hair-gonomie-app
+    ports:
+      - "8000:8000"
+    environment:
+      - NODE_ENV=production
+      - PORT=8000
+    restart: unless-stopped
+    volumes:
+      - ./backend/logs:/app/logs
+    networks:
+      - hair-gonomie-network
+
+networks:
+  hair-gonomie-network:
+    driver: bridge
